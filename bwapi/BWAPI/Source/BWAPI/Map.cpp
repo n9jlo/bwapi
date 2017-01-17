@@ -33,8 +33,8 @@ namespace BWAPI
     std::string mapPath( BW::BWDATA::CurrentMapFileName.data() );
     
     // If the install path is included in the map path, remove it, creating a relative path
-    if ( !installPath.empty() && mapPath.compare(0, installPath.length(), installPath) == 0 )
-      mapPath.erase(0, installPath.length() );
+    if ( !installPath().empty() && mapPath.compare(0, installPath().length(), installPath()) == 0 )
+      mapPath.erase(0, installPath().length() );
     
     return mapPath;
   }
@@ -140,8 +140,8 @@ namespace BWAPI
   //------------------------------------------------ GET TILE ------------------------------------------------
   BW::TileID Map::getTile(int x, int y)
   {
-    if ( *BW::BWDATA::MapTileArray && static_cast<unsigned>(x) < getWidth() && static_cast<unsigned>(y) < getHeight())
-      return *((*BW::BWDATA::MapTileArray) + x + y * Map::getWidth());
+    if ( BW::BWDATA::MapTileArray && static_cast<unsigned>(x) < getWidth() && static_cast<unsigned>(y) < getHeight())
+      return BW::BWDATA::MapTileArray[x + y * Map::getWidth()];
     return 0;
   }
   //------------------------------------------- GET TILE VARIATION -------------------------------------------
@@ -159,7 +159,7 @@ namespace BWAPI
     BW::TileID tileID = BWAPI::Map::getTile(tx, ty);
     BW::TileType* tile = BW::TileSet::getTileType(tileID);
     if ( tile && BW::BWDATA::MiniTileFlags )
-      return (*BW::BWDATA::MiniTileFlags)->tile[tile->megaTileRef[Map::getTileVariation(tileID)]].miniTile[mx + my*4];
+      return BW::BWDATA::MiniTileFlags->tile[tile->megaTileRef[Map::getTileVariation(tileID)]].miniTile[mx + my*4];
     return 0;
   }
   //------------------------------------------ GET MAP HASH --------------------------------------------------

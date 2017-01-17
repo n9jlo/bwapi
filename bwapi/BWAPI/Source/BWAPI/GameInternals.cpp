@@ -17,6 +17,7 @@
 #include <BW/CBullet.h>
 #include <BW/CUnit.h>
 #include <BW/Dialog.h>
+#include <BW/Offsets.h>
 
 #include "../../../Debug.h"
 
@@ -36,15 +37,15 @@ namespace BWAPI
     BWtoBWAPI_init();
 
     // iterate through players and create PlayerImpl for each
-    for (u8 i = 0; i < PLAYER_COUNT; ++i)
+    for (u8 i = 0; i < BW::PLAYER_COUNT; ++i)
       players[i] = new PlayerImpl(i);
 
     // iterate through units and create UnitImpl for each
-    for (u16 i = 0; i < UNIT_ARRAY_MAX_LENGTH; ++i)
+    for (u16 i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; ++i)
       unitArray[i] = new UnitImpl(&BW::BWDATA::UnitNodeTable[i], i);
 
     // iterate through bullets and create BulletImpl for each
-    for (u16 i = 0; i < BULLET_ARRAY_MAX_LENGTH; ++i)
+    for (u16 i = 0; i < BW::BULLET_ARRAY_MAX_LENGTH; ++i)
       bulletArray[i] = new BulletImpl(&BW::BWDATA::BulletNodeTable[i], i);
 
     this->initializeData();
@@ -84,7 +85,7 @@ namespace BWAPI
     }
 
     selectedUnitSet.clear();
-    for (int i = 0; i < BW::BWDATA::ClientSelectionCount && i < MAX_SELECTION_COUNT; ++i)
+    for (int i = 0; i < BW::BWDATA::ClientSelectionCount && i < BW::MAX_SELECTION_COUNT; ++i)
     {
       BWAPI::UnitImpl *u = UnitImpl::BWUnitToBWAPIUnit(BW::BWDATA::ClientSelectionGroup[i]);
       if (u)
@@ -96,7 +97,7 @@ namespace BWAPI
   }
   void GameImpl::dropPlayers()
   {
-    for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
+    for ( int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; ++i )
     {
       if ( BW::BWDATA::playerStatusArray[i] & 0x10000 )
       {
@@ -120,11 +121,6 @@ namespace BWAPI
     // Press and release the key
     PostMessage(SDrawGetFrameWindow(), WM_CHAR, (WPARAM)key, NULL);
   }
-  void GameImpl::pressDialogKey(BW::dialog *pDlg)
-  {
-    if ( pDlg )
-      this->pressKey( pDlg->getHotkey() );
-  }
   void GameImpl::mouseDown(int x, int y)
   {
     // Press the left mouse button
@@ -139,7 +135,7 @@ namespace BWAPI
   int GameImpl::stormIdToPlayerId(int dwStormId)
   {
     /* Translates a storm ID to a player Index */
-    for (int i = 0; i < PLAYER_COUNT; ++i)
+    for (int i = 0; i < BW::PLAYER_COUNT; ++i)
     {
       if ( BW::BWDATA::Players[i].dwStormId == dwStormId )
         return i;
@@ -223,28 +219,6 @@ namespace BWAPI
       Broodwar << "Latency: " << getLatency() << std::endl;
       Broodwar << "New latency: " << getLatencyFrames() << " frames (" << getLatencyTime() << "ms)" << std::endl;
     }
-// The following commands are knockoffs of Starcraft Beta's developer mode
-    else if (cmd == "/pathdebug")
-    {
-      pathDebug = !pathDebug;
-      Broodwar << "pathdebug " << (pathDebug ? "ENABLED" : "DISABLED") << std::endl;
-    }
-    else if (cmd == "/unitdebug")
-    {
-      unitDebug = !unitDebug;
-      Broodwar << "unitdebug " << (unitDebug ? "ENABLED" : "DISABLED") << std::endl;
-    }
-// end knockoffs
-    else if (cmd == "/hud")
-    {
-      hideHUD = !hideHUD;
-      Broodwar << "Now " << (hideHUD ? "hiding" : "showing") << " the HUD." << std::endl;
-    }
-    else if (cmd == "/resize")
-    {
-      Broodwar << "Done" << std::endl;
-      SetResolution(1280, 720);
-    }
     else if (cmd == "/test")
     {
     }
@@ -288,8 +262,8 @@ namespace BWAPI
   //------------------------------------------- GET PLAYER INTERNAL ------------------------------------------
   PlayerImpl *GameImpl::_getPlayer(int id)
   {
-    if ( id < 0 || id >= PLAYER_COUNT )
-      return players[PLAYER_COUNT - 1];
+    if (id < 0 || id >= BW::PLAYER_COUNT)
+      return players[BW::PLAYER_COUNT - 1];
     return players[id];
   }
   int GameImpl::_currentPlayerId()
@@ -409,11 +383,6 @@ namespace BWAPI
 
     // clear messages so they are not stored until the next match
     this->sentMessages.clear();
-
-    // Reset menu activation variables
-    this->actRaceSel      = false;
-    this->actStartedGame  = false;
-    this->autoMapTryCount = 0;
 
     // Some other variables
     apmCounter.init();

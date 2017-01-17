@@ -17,13 +17,14 @@
 
 void ApplyCodePatches()
 {
+#ifndef SHADOW_BROODWAR
   // ---------------------------------- VERSION DEPENDENT ----------------------------------------------------
   // Only apply if version is correct
   if ( isCorrectVersion )
   {
     // Create function-level hooks
     HackUtil::CallPatch(BW::BWFXN_P_IsGamePaused, &_nextFrameHook);
-    HackUtil::CallPatch(BW::BWDATA::ExecuteGameTrigsCallPatch, &ExecuteGameTriggers);
+    HackUtil::CallPatch(BW::BWFXN_ExecuteGameTrigsCallPatch, &ExecuteGameTriggers);
     HackUtil::WriteNops(BW::BWFXN_SpendRepair, 7);
     HackUtil::JmpPatch(BW::BWFXN_SpendRepair, &_repairHook);
     HackUtil::JmpPatch(BW::BWFXN_RefundMinerals, &_refundMineralsHook);
@@ -37,8 +38,8 @@ void ApplyCodePatches()
     HackUtil::JmpPatch(BW::BWDATA::BWFXN_QueueCommand, &CommandFilter);
     HackUtil::JmpPatch(BW::BWDATA::BWFXN_DDrawDestroy, &DDrawDestroy);
     HackUtil::JmpPatch(BW::BWFXN_NetSelectReturnMenu, &_SelectReturnMenu);
-    HackUtil::CallPatch(BW::BWDATA::RandomizeRacePatch, &_RandomizePlayerRaces);
-    HackUtil::CallPatch(BW::BWDATA::InitPlayerConsolePatch, &_InitializePlayerConsole);
+    HackUtil::CallPatch(BW::BWFXN_RandomizeRacePatch, &_RandomizePlayerRaces);
+    HackUtil::CallPatch(BW::BWFXN_InitPlayerConsolePatch, &_InitializePlayerConsole);
     
     // Perform code patches
     char zero = 0;
@@ -54,11 +55,6 @@ void ApplyCodePatches()
     for (auto &it : BW::BWDATA::gluCmpgnSwishController) it.wType = 4;
     for (auto &it : BW::BWDATA::gluScoreSwishController) it.wType = 4;
     for (auto &it : BW::BWDATA::gluChatSwishController) it.wType = 4;
-
-    // Write trigger action detours
-    memcpy(BWTriggerActionFxnTable, BW::TriggerActionCallbacks, sizeof(BWTriggerActionFxnTable));
-    for ( int i = 0; i < std::extent<decltype(BWTriggerActionFxnTable)>::value; ++i )
-      BW::TriggerActionCallbacks[i] = &TriggerActionReplacement;
   }
   // ---------------------------------- VERSION INDEPENDENT --------------------------------------------------
   // Write storm authentication patch (allow custom network modes)
@@ -93,6 +89,7 @@ void ApplyCodePatches()
   _CreateThreadOld       = HackUtil::PatchImport("kernel32.dll", "CreateThread", &_CreateThread);
   _CreateEventAOld       = HackUtil::PatchImport("kernel32.dll", "CreateEventA", &_CreateEvent);
   _GetSystemTimeAsFileTimeOld = HackUtil::PatchImport("kernel32.dll", "GetSystemTimeAsFileTime", &_GetSystemTimeAsFileTime);
+#endif
 }
 
 //----------------------------------------- NET-MODE RETURN MENU ---------------------------------------------

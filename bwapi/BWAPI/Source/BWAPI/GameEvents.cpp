@@ -4,6 +4,7 @@
 #include "Detours.h"
 
 #include <BW/Pathing.h>
+#include <BW/Offsets.h>
 
 #include <BWAPI/PlayerImpl.h>
 #include <BWAPI/RegionImpl.h>
@@ -28,9 +29,9 @@ namespace BWAPI
     Map::calculateMapHash();
 
     // Obtain Broodwar Regions
-    if ( *BW::BWDATA::SAIPathing )
+    if ( BW::BWDATA::SAIPathing )
     {
-      u32 rgnCount = (*BW::BWDATA::SAIPathing)->regionCount;
+      u32 rgnCount = BW::BWDATA::SAIPathing->regionCount;
       // Iterate regions and insert into region list
       for (u32 i = 0; i < rgnCount; ++i)
       {
@@ -46,7 +47,7 @@ namespace BWAPI
 
     // roughly identify which players can possibly participate in this game
     // iterate triggers for each player
-    for (int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i)
+    for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; ++i)
     {
       // reset participation and resources
       if (this->players[i])
@@ -58,7 +59,7 @@ namespace BWAPI
       // First check if player owns a unit at start
       for (int u = 0; u < UnitTypes::None; ++u)
       {
-        if (BW::BWDATA::AllScores->unitCounts.all[u][i])
+        if (BW::BWDATA::AllScores.unitCounts.all[u][i])
         {
           if (this->players[i])
             this->players[i]->setParticipating();
@@ -67,17 +68,17 @@ namespace BWAPI
       }
     }
 
-    for (int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i)
+    for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; ++i)
     {
       // Then iterate each trigger
       // checking if a unit can be created or given to the player later in the game
-      for ( BW::BlizzVectorEntry<BW::Triggers::Trigger> *t = BW::BWDATA::TriggerVectors[i].begin; (u32)t != ~(u32)&BW::BWDATA::TriggerVectors[i].end && (u32)t != (u32)&BW::BWDATA::TriggerVectors[i].begin; t = t->next )
+      for ( BW::VCListEntry<BW::Triggers::Trigger> *t = BW::BWDATA::TriggerVectors[i].begin; (u32)t != ~(u32)&BW::BWDATA::TriggerVectors[i].end && (u32)t != (u32)&BW::BWDATA::TriggerVectors[i].begin; t = t->next )
       {
         // check if trigger conditions can be met
         if ( t->container.conditionsCanBeMet() )
         {
           // check participation of players
-          for ( int p = 0; p < PLAYABLE_PLAYER_COUNT; ++p )
+          for (int p = 0; p < BW::PLAYABLE_PLAYER_COUNT; ++p)
           {
             // Don't bother checking for participation if the player doesn't exist
             // or if the player is already participating (NOT observing)
@@ -108,7 +109,7 @@ namespace BWAPI
       this->BWAPIPlayer = thisPlayer;
 
       // find the opponent player
-      for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
+      for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; ++i)
       {
         if ( (this->players[i]->getType() == PlayerTypes::Computer ||
               this->players[i]->getType() == PlayerTypes::Player   ||
@@ -160,7 +161,7 @@ namespace BWAPI
       }
     }
 
-    for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
+    for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; ++i)
     {
       // Skip Start Locations that don't exist
       if (BW::BWDATA::startPositions[i] == Positions::Origin)
@@ -181,7 +182,7 @@ namespace BWAPI
     }
 
     // Get Player Objects
-    for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
+    for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; ++i)
     {
       if ( this->players[i] &&
            BW::BWDATA::Players[i].nType != PlayerTypes::None &&
@@ -210,7 +211,7 @@ namespace BWAPI
     if ( this->players[11] )
       this->playerSet.insert(this->players[11]);
 
-    for (int p = 0; p < PLAYABLE_PLAYER_COUNT; ++p) {
+    for (int p = 0; p < BW::PLAYABLE_PLAYER_COUNT; ++p) {
         if (this->players[p]) this->players[p]->force = nullptr;
     }
 
@@ -226,7 +227,7 @@ namespace BWAPI
     {
       ForceImpl *newForce = new ForceImpl( BW::BWDATA::ForceNames[f-1].data() );
       this->forces.insert( newForce );
-      for ( int p = 0; p < PLAYABLE_PLAYER_COUNT; ++p )
+      for (int p = 0; p < BW::PLAYABLE_PLAYER_COUNT; ++p)
       {
         if ( this->players[p] && BW::BWDATA::Players[p].nTeam == f )
         {
@@ -239,7 +240,7 @@ namespace BWAPI
     }
 
     // Assign neutral force to players that do not have one
-    for ( int p = 0; p < PLAYABLE_PLAYER_COUNT; ++p )
+    for (int p = 0; p < BW::PLAYABLE_PLAYER_COUNT; ++p)
     {
       if ( this->players[p] && !this->players[p]->force )
         this->players[p]->force = pNeutralForce;
@@ -351,7 +352,7 @@ namespace BWAPI
     if ( !this->onStartCalled )
       return;
 
-    if ( autoMenuSaveReplay != "" && !this->isReplay() )
+    if ( autoMenuManager.autoMenuSaveReplay != "" && !this->isReplay() )
     {
       // Set replay envvars
       SetEnvironmentVariableA("BOTNAME",    rn_BWAPIName.c_str());
@@ -366,7 +367,7 @@ namespace BWAPI
 
       // Expand environment strings to szInterPath
       char szTmpPath[MAX_PATH] = { 0 };
-      ExpandEnvironmentStringsA(autoMenuSaveReplay.c_str(), szTmpPath, MAX_PATH);
+      ExpandEnvironmentStringsA(autoMenuManager.autoMenuSaveReplay.c_str(), szTmpPath, MAX_PATH);
 
       std::string pathStr(szTmpPath);
 
@@ -413,14 +414,14 @@ namespace BWAPI
     }
 
     // player-specific game end
-    for (int i = 0 ; i < PLAYER_COUNT; ++i)
+    for (int i = 0; i < BW::PLAYER_COUNT; ++i)
       if ( this->players[i] )
         this->players[i]->onGameEnd();
 
     this->onStartCalled = false;
 
     this->initializeData();
-    this->chooseNewRandomMap();
+    this->autoMenuManager.chooseNewRandomMap();
   }
   //---------------------------------------------- SEND EVENTS TO CLIENT
   void GameImpl::SendClientEvent(BWAPI::AIModule *module, Event &e)

@@ -5,7 +5,7 @@
 
 #pragma pack(1)
 
-#define getRegionFromId(x) (&((*BW::BWDATA::SAIPathing)->regions[(x)&0x1FFF]))
+#define getRegionFromId(x) (&(BW::BWDATA::SAIPathing->regions[(x)&0x1FFF]))
 
 namespace BW
 {
@@ -31,6 +31,7 @@ namespace BW
     u16 bottom;
   };
 
+  // cppcheck-suppress noConstructor
   class region
   {
   public:

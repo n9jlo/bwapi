@@ -12,7 +12,6 @@
 #include "Config.h"
 #include "NewHackUtil.h"
 #include "Detours.h"
-#include "GameDrawing.h"
 #include "Util/Convenience.h"
 #include "BWAPI/GameImpl.h"
 #include "BWAPI/PlayerImpl.h"
@@ -25,7 +24,6 @@
 
 #include "../../Debug.h"
 
-bool hideHUD;
 std::string gDesiredReplayName;
 
 void *leakUIClassLoc;
@@ -50,12 +48,12 @@ DECL_OLDFXN(CreateEventA);
 DECL_OLDFXN(GetSystemTimeAsFileTime);
 
 //------------------------------------------------ RANDOM RACE --------------------------------------------------
-u8 savedRace[PLAYABLE_PLAYER_COUNT];
-int mappedIndex[PLAYABLE_PLAYER_COUNT];
+u8 savedRace[BW::PLAYABLE_PLAYER_COUNT];
+int mappedIndex[BW::PLAYABLE_PLAYER_COUNT];
 void _RandomizePlayerRaces()    // before
 {
   // iterate each player
-  for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
+  for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; ++i)
   {
     // Save the player's initial race
     savedRace[i] = BW::BWDATA::Players[i].nRace;
@@ -74,7 +72,7 @@ void _RandomizePlayerRaces()    // before
 
 int getMappedIndex(int stormID)
 {
-  for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
+  for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; ++i)
   {
     if ( mappedIndex[i] == stormID )
       return i;
@@ -84,7 +82,7 @@ int getMappedIndex(int stormID)
 
 void _InitializePlayerConsole()   // after
 {
-  for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
+  for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; ++i)
   {
     // Retrieve the original race value before randomization occurred from the mapped index
     int mapID = getMappedIndex(BW::BWDATA::Players[i].dwStormId);
@@ -104,20 +102,6 @@ void __stdcall ExecuteGameTriggers(DWORD dwMillisecondsPerFrame)
 {
   dwMillisecondsPerFrame = BW::OriginalSpeedModifiers[BW::BWDATA::GameSpeed];
   BW::BWFXN_ExecuteGameTriggers(dwMillisecondsPerFrame);
-}
-
-bool (__fastcall *BWTriggerActionFxnTable[60])(BW::Triggers::Action*);
-bool __fastcall TriggerActionReplacement(BW::Triggers::Action *pAction)
-{
-  if (!pAction || pAction->bActionType >= std::extent<decltype(BWTriggerActionFxnTable)>::value)
-    return false;
-
-  bool rval = BWTriggerActionFxnTable[pAction->bActionType](pAction);
-  if ( rval )
-  {
-    // do stuff
-  }
-  return rval;
 }
 
 //--------------------------------------- GetSystemTimeAsFileTime --------------------------------------------
@@ -199,7 +183,9 @@ HWND WINAPI _CreateWindowEx(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindow
     detourCreateWindow = true;
     if ( switchToWMode )
     {
+#ifndef SHADOW_BROODWAR
       HackUtil::CallPatch(BW::BWDATA::DDrawInitCallPatch, &DDInit);
+#endif
       hWndReturn = CreateWindowExProc(dwExStyle,
                                         lpClassName,
                                         newWindowName.str().c_str(),
@@ -235,12 +221,7 @@ HWND WINAPI _CreateWindowEx(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindow
 //----------------------------------------------- FILE HOOKS -------------------------------------------------
 HANDLE WINAPI _FindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATAA lpFindFileData)
 {
-  if ( !BWAPI::BroodwarImpl.autoMenuMapPath.empty() &&
-       BWAPI::BroodwarImpl.autoMenuMode != ""       &&
-       BWAPI::BroodwarImpl.autoMenuMode != "OFF"    &&
-       !BWAPI::BroodwarImpl.lastMapGen.empty()      &&
-       strstr(lpFileName, "*.*")  )
-    lpFileName = BWAPI::BroodwarImpl.lastMapGen.c_str();
+  lpFileName = BWAPI::BroodwarImpl.autoMenuManager.interceptFindFirstFile(lpFileName);
 
   auto FindFirstFileProc = _FindFirstFileAOld ? _FindFirstFileAOld : &FindFirstFileA;
   return FindFirstFileProc(lpFileName, lpFindFileData);
@@ -418,7 +399,7 @@ void __stdcall DrawHook(BW::Bitmap *pSurface, BW::bounds *pBounds)
 bool nosound = false;
 void __stdcall DrawDialogHook(BW::Bitmap *pSurface, BW::bounds *pBounds)
 {
-  if ( BW::pOldDrawDialogProc && !hideHUD )
+  if ( BW::pOldDrawDialogProc )
     BW::pOldDrawDialogProc(pSurface, pBounds);
 
   if ( BW::BWDATA::gwGameMode == BW::GAME_GLUES )
@@ -499,10 +480,11 @@ BOOL __stdcall _SFileOpenFile(const char *filename, HANDLE *phFile)
 //--------------------------------------------- MEM ALLOC HOOK -----------------------------------------------
 void *__stdcall _SMemAlloc(size_t amount, char *logfilename, int logline, char defaultValue)
 {
-  /* Call the original function */
+  // Call the original function
   auto SMemAllocProc = _SMemAllocOld ? _SMemAllocOld : &SMemAlloc;
   void *rval = SMemAllocProc(amount, logfilename, logline, defaultValue);
 
+#ifndef SHADOW_BROODWAR
   if ( isCorrectVersion )
   {
     if ( lastFile == "dlgs\\protoss.grp" ||
@@ -527,7 +509,7 @@ void *__stdcall _SMemAlloc(size_t amount, char *logfilename, int logline, char d
       }
     }
   } // isCorrectVer
-
+#endif
   return rval;
 }
 

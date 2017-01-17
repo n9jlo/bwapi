@@ -10,7 +10,7 @@
 #include "Command.h"
 #include "../DLLMain.h"
 #include "../Detours.h"
-#include "TemplatesImpl.h"
+#include "Templates.h"
 
 #include <BW/CUnit.h>
 #include <BW/COrder.h>
@@ -23,8 +23,8 @@ namespace BWAPI
 {
   //--------------------------------------------- CONSTRUCTOR ------------------------------------------------
   UnitImpl::UnitImpl(BW::CUnit* originalUnit, u16 index)
-      : getOriginalRawData(originalUnit)  // 273
-      , index(index)  // 319
+      : getOriginalRawData(originalUnit)
+      , index(index)
   {
     clear();
   }
@@ -134,7 +134,7 @@ namespace BWAPI
       return nullptr;
 
     int index = unit - BW::BWDATA::UnitNodeTable.data();
-    if (index > UNIT_ARRAY_MAX_LENGTH)
+    if (index > BW::UNIT_ARRAY_MAX_LENGTH)
     {
       return nullptr;
     }

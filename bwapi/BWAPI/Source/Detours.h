@@ -2,12 +2,19 @@
 
 #include <windows.h>
 #include <string>
+#include <storm.h>
 
-#include "BW/Offsets.h"
+namespace BW
+{
+  namespace Triggers
+  {
+    class Action;
+  }
+  class Bitmap;
+  struct bounds;
+}
 
 #define DECL_OLDFXN(x) decltype(&x) _ ## x ## Old
-
-void __stdcall DrawHook(BW::Bitmap *pSurface, BW::bounds *pBounds);
 
 BOOL  STORMAPI   _SNetLeaveGame(int type);
 int   __cdecl    _nextFrameHook();
@@ -35,7 +42,6 @@ HANDLE WINAPI _CreateThread(LPSECURITY_ATTRIBUTES lpThreadAttributes, SIZE_T dwS
 HANDLE WINAPI _CreateEvent(LPSECURITY_ATTRIBUTES lpEventAttributes, BOOL bManualReset, BOOL bInitialState, LPCSTR lpName);
 void WINAPI _GetSystemTimeAsFileTime(LPFILETIME lpSystemTimeAsFileTime);
 
-extern bool hideHUD;
 extern DWORD lastTurnTime;
 extern DWORD lastTurnFrame;
 extern std::string gDesiredReplayName;
@@ -58,9 +64,6 @@ extern DECL_OLDFXN(Sleep);
 extern DECL_OLDFXN(CreateThread);
 extern DECL_OLDFXN(CreateEventA);
 extern DECL_OLDFXN(GetSystemTimeAsFileTime);
-
-bool __fastcall TriggerActionReplacement(BW::Triggers::Action *pAction);
-extern bool (__fastcall *BWTriggerActionFxnTable[60])(BW::Triggers::Action*);
 
 void _RandomizePlayerRaces();
 void _InitializePlayerConsole();

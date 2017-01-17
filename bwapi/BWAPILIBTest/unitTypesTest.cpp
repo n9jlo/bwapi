@@ -7,29 +7,25 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-// TODO
-// upgrades
-// abilities
-// requiredUnits
-// whatBuilds
-// enum verify
-
 namespace BWAPILIBTest
 {
   TEST_CLASS(UnitTypesTest)
   {
   public:
-    TEST_METHOD(TestTerran_Marine)
+    TEST_METHOD(UnitTypeTerran_Marine)
     {
       auto t = BWAPI::UnitTypes::Terran_Marine;
-      
       Assert_enum(Terran_Marine);
 
-      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Infantry_Armor, BWAPI::UpgradeTypes::Terran_Infantry_Weapons, BWAPI::UpgradeTypes::U_238_Shells }, t.upgrades());
-      
+      Assert_getName(Terran_Marine);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_Barracks, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_Barracks, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Stim_Packs }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Infantry_Armor, BWAPI::UpgradeTypes::U_238_Shells, BWAPI::UpgradeTypes::Terran_Infantry_Weapons }, t.upgrades());
       Assert_armorUpgrade(Terran_Infantry_Armor);
       Assert_maxHitPoints(40);
       Assert_maxShields(0);
@@ -48,12 +44,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(8);
       Assert_dimensionUp(9);
       Assert_dimensionRight(8);
       Assert_dimensionDown(10);
       Assert_width(17);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(20);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(224);
       Assert_groundWeapon(Gauss_Rifle);
@@ -95,18 +94,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Ghost)
+    TEST_METHOD(UnitTypeTerran_Ghost)
     {
       auto t = BWAPI::UnitTypes::Terran_Ghost;
+      Assert_enum(Terran_Ghost);
 
+      Assert_getName(Terran_Ghost);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_Barracks, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_Barracks, 1 }, { BWAPI::UnitTypes::Terran_Academy, 1 }, { BWAPI::UnitTypes::Terran_Covert_Ops, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(Personnel_Cloaking);
+      AssertSetEquals({ BWAPI::TechTypes::Lockdown, BWAPI::TechTypes::Personnel_Cloaking, BWAPI::TechTypes::Nuclear_Strike }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Infantry_Armor, BWAPI::UpgradeTypes::Terran_Infantry_Weapons, BWAPI::UpgradeTypes::Ocular_Implants, BWAPI::UpgradeTypes::Moebius_Reactor }, t.upgrades());
       Assert_armorUpgrade(Terran_Infantry_Armor);
       Assert_maxHitPoints(45);
       Assert_maxShields(0);
@@ -125,12 +135,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(7);
       Assert_dimensionUp(10);
       Assert_dimensionRight(7);
       Assert_dimensionDown(11);
       Assert_width(15);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(22);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(288);
       Assert_groundWeapon(C_10_Canister_Rifle);
@@ -172,18 +185,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Vulture)
+    TEST_METHOD(UnitTypeTerran_Vulture)
     {
       auto t = BWAPI::UnitTypes::Terran_Vulture;
+      Assert_enum(Terran_Vulture);
 
+      Assert_getName(Terran_Vulture);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_Factory, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_Factory, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Spider_Mines }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Vehicle_Plating, BWAPI::UpgradeTypes::Ion_Thrusters, BWAPI::UpgradeTypes::Terran_Vehicle_Weapons }, t.upgrades());
       Assert_armorUpgrade(Terran_Vehicle_Plating);
       Assert_maxHitPoints(80);
       Assert_maxShields(0);
@@ -202,12 +226,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(Fragmentation_Grenade);
@@ -249,18 +276,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Goliath)
+    TEST_METHOD(UnitTypeTerran_Goliath)
     {
       auto t = BWAPI::UnitTypes::Terran_Goliath;
+      Assert_enum(Terran_Goliath);
 
+      Assert_getName(Terran_Goliath);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_Factory, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_Factory, 1 }, { BWAPI::UnitTypes::Terran_Armory, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Vehicle_Plating, BWAPI::UpgradeTypes::Terran_Vehicle_Weapons, BWAPI::UpgradeTypes::Charon_Boosters }, t.upgrades());
       Assert_armorUpgrade(Terran_Vehicle_Plating);
       Assert_maxHitPoints(125);
       Assert_maxShields(0);
@@ -279,12 +317,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(160);
       Assert_sightRange(256);
       Assert_groundWeapon(Twin_Autocannons);
@@ -326,18 +367,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Siege_Tank_Tank_Mode)
+    TEST_METHOD(UnitTypeTerran_Siege_Tank_Tank_Mode)
     {
       auto t = BWAPI::UnitTypes::Terran_Siege_Tank_Tank_Mode;
+      Assert_enum(Terran_Siege_Tank_Tank_Mode);
 
+      Assert_getName(Terran_Siege_Tank_Tank_Mode);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_Factory, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_Factory, 1 }, { BWAPI::UnitTypes::Terran_Machine_Shop, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Tank_Siege_Mode }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Vehicle_Plating, BWAPI::UpgradeTypes::Terran_Vehicle_Weapons }, t.upgrades());
       Assert_armorUpgrade(Terran_Vehicle_Plating);
       Assert_maxHitPoints(150);
       Assert_maxShields(0);
@@ -356,12 +408,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(256);
       Assert_sightRange(320);
       Assert_groundWeapon(Arclite_Cannon);
@@ -403,18 +458,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_SCV)
+    TEST_METHOD(UnitTypeTerran_SCV)
     {
       auto t = BWAPI::UnitTypes::Terran_SCV;
+      Assert_enum(Terran_SCV);
 
+      Assert_getName(Terran_SCV);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_Command_Center, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_Command_Center, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Infantry_Armor }, t.upgrades());
       Assert_armorUpgrade(Terran_Infantry_Armor);
       Assert_maxHitPoints(60);
       Assert_maxShields(0);
@@ -433,12 +499,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(11);
       Assert_dimensionUp(11);
       Assert_dimensionRight(11);
       Assert_dimensionDown(11);
       Assert_width(23);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(23);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(32);
       Assert_sightRange(224);
       Assert_groundWeapon(Fusion_Cutter);
@@ -480,18 +549,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({ BWAPI::UnitTypes::Terran_Academy, BWAPI::UnitTypes::Terran_Armory, BWAPI::UnitTypes::Terran_Barracks, BWAPI::UnitTypes::Terran_Bunker, BWAPI::UnitTypes::Terran_Engineering_Bay, BWAPI::UnitTypes::Terran_Command_Center, BWAPI::UnitTypes::Terran_Factory, BWAPI::UnitTypes::Terran_Missile_Turret, BWAPI::UnitTypes::Terran_Refinery, BWAPI::UnitTypes::Terran_Science_Facility, BWAPI::UnitTypes::Terran_Starport, BWAPI::UnitTypes::Terran_Supply_Depot }, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Wraith)
+    TEST_METHOD(UnitTypeTerran_Wraith)
     {
       auto t = BWAPI::UnitTypes::Terran_Wraith;
+      Assert_enum(Terran_Wraith);
 
+      Assert_getName(Terran_Wraith);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_Starport, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_Starport, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(Cloaking_Field);
+      AssertSetEquals({ BWAPI::TechTypes::Cloaking_Field }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Ship_Plating, BWAPI::UpgradeTypes::Terran_Ship_Weapons, BWAPI::UpgradeTypes::Apollo_Reactor }, t.upgrades());
       Assert_armorUpgrade(Terran_Ship_Plating);
       Assert_maxHitPoints(120);
       Assert_maxShields(0);
@@ -510,12 +590,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(19);
       Assert_dimensionUp(15);
       Assert_dimensionRight(18);
       Assert_dimensionDown(14);
       Assert_width(38);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(30);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(224);
       Assert_groundWeapon(Burst_Lasers);
@@ -557,18 +640,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Science_Vessel)
+    TEST_METHOD(UnitTypeTerran_Science_Vessel)
     {
       auto t = BWAPI::UnitTypes::Terran_Science_Vessel;
+      Assert_enum(Terran_Science_Vessel);
 
+      Assert_getName(Terran_Science_Vessel);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_Starport, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_Starport, 1 }, { BWAPI::UnitTypes::Terran_Control_Tower, 1 }, { BWAPI::UnitTypes::Terran_Science_Facility, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::EMP_Shockwave, BWAPI::TechTypes::Defensive_Matrix, BWAPI::TechTypes::Irradiate }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Ship_Plating, BWAPI::UpgradeTypes::Titan_Reactor }, t.upgrades());
       Assert_armorUpgrade(Terran_Ship_Plating);
       Assert_maxHitPoints(200);
       Assert_maxShields(0);
@@ -587,12 +681,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(32);
       Assert_dimensionUp(33);
       Assert_dimensionRight(32);
       Assert_dimensionDown(16);
       Assert_width(65);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(50);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -634,18 +731,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Gui_Montag)
+    TEST_METHOD(UnitTypeHero_Gui_Montag)
     {
       auto t = BWAPI::UnitTypes::Hero_Gui_Montag;
+      Assert_enum(Hero_Gui_Montag);
 
+      Assert_getName(Hero_Gui_Montag);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Stim_Packs }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Infantry_Armor, BWAPI::UpgradeTypes::Terran_Infantry_Weapons }, t.upgrades());
       Assert_armorUpgrade(Terran_Infantry_Armor);
       Assert_maxHitPoints(160);
       Assert_maxShields(0);
@@ -664,12 +772,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(11);
       Assert_dimensionUp(7);
       Assert_dimensionRight(11);
       Assert_dimensionDown(14);
       Assert_width(23);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(22);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(96);
       Assert_sightRange(224);
       Assert_groundWeapon(Flame_Thrower_Gui_Montag);
@@ -711,18 +822,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Dropship)
+    TEST_METHOD(UnitTypeTerran_Dropship)
     {
       auto t = BWAPI::UnitTypes::Terran_Dropship;
+      Assert_enum(Terran_Dropship);
 
+      Assert_getName(Terran_Dropship);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_Starport, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_Starport, 1 }, { BWAPI::UnitTypes::Terran_Control_Tower, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Ship_Plating }, t.upgrades());
       Assert_armorUpgrade(Terran_Ship_Plating);
       Assert_maxHitPoints(150);
       Assert_maxShields(0);
@@ -741,12 +863,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(24);
       Assert_dimensionUp(16);
       Assert_dimensionRight(24);
       Assert_dimensionDown(20);
       Assert_width(49);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(37);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -788,18 +913,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Battlecruiser)
+    TEST_METHOD(UnitTypeTerran_Battlecruiser)
     {
       auto t = BWAPI::UnitTypes::Terran_Battlecruiser;
+      Assert_enum(Terran_Battlecruiser);
 
+      Assert_getName(Terran_Battlecruiser);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_Starport, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_Starport, 1 }, { BWAPI::UnitTypes::Terran_Control_Tower, 1 }, { BWAPI::UnitTypes::Terran_Physics_Lab, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Yamato_Gun }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Ship_Plating, BWAPI::UpgradeTypes::Terran_Ship_Weapons, BWAPI::UpgradeTypes::Colossus_Reactor }, t.upgrades());
       Assert_armorUpgrade(Terran_Ship_Plating);
       Assert_maxHitPoints(500);
       Assert_maxShields(0);
@@ -818,12 +954,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(37);
       Assert_dimensionUp(29);
       Assert_dimensionRight(37);
       Assert_dimensionDown(29);
       Assert_width(75);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(59);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(352);
       Assert_groundWeapon(ATS_Laser_Battery);
@@ -865,18 +1004,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Vulture_Spider_Mine)
+    TEST_METHOD(UnitTypeTerran_Vulture_Spider_Mine)
     {
       auto t = BWAPI::UnitTypes::Terran_Vulture_Spider_Mine;
+      Assert_enum(Terran_Vulture_Spider_Mine);
 
+      Assert_getName(Terran_Vulture_Spider_Mine);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(20);
       Assert_maxShields(0);
@@ -895,12 +1045,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(7);
       Assert_dimensionUp(7);
       Assert_dimensionRight(7);
       Assert_dimensionDown(7);
       Assert_width(15);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(15);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(96);
       Assert_sightRange(96);
       Assert_groundWeapon(Spider_Mines);
@@ -942,18 +1095,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Nuclear_Missile)
+    TEST_METHOD(UnitTypeTerran_Nuclear_Missile)
     {
       auto t = BWAPI::UnitTypes::Terran_Nuclear_Missile;
+      Assert_enum(Terran_Nuclear_Missile);
 
+      Assert_getName(Terran_Nuclear_Missile);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_Nuclear_Silo, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_Nuclear_Silo, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100);
       Assert_maxShields(0);
@@ -972,12 +1136,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(7);
       Assert_dimensionUp(14);
       Assert_dimensionRight(7);
       Assert_dimensionDown(14);
       Assert_width(15);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(29);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(96);
       Assert_groundWeapon(None);
@@ -1019,18 +1186,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Civilian)
+    TEST_METHOD(UnitTypeTerran_Civilian)
     {
       auto t = BWAPI::UnitTypes::Terran_Civilian;
+      Assert_enum(Terran_Civilian);
 
+      Assert_getName(Terran_Civilian);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Infantry_Armor }, t.upgrades());
       Assert_armorUpgrade(Terran_Infantry_Armor);
       Assert_maxHitPoints(40);
       Assert_maxShields(0);
@@ -1049,12 +1227,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(8);
       Assert_dimensionUp(9);
       Assert_dimensionRight(8);
       Assert_dimensionDown(10);
       Assert_width(17);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(20);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(224);
       Assert_groundWeapon(None);
@@ -1096,18 +1277,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Sarah_Kerrigan)
+    TEST_METHOD(UnitTypeHero_Sarah_Kerrigan)
     {
       auto t = BWAPI::UnitTypes::Hero_Sarah_Kerrigan;
+      Assert_enum(Hero_Sarah_Kerrigan);
 
+      Assert_getName(Hero_Sarah_Kerrigan);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(Personnel_Cloaking);
+      AssertSetEquals({ BWAPI::TechTypes::Lockdown, BWAPI::TechTypes::Personnel_Cloaking }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Infantry_Armor, BWAPI::UpgradeTypes::Terran_Infantry_Weapons }, t.upgrades());
       Assert_armorUpgrade(Terran_Infantry_Armor);
       Assert_maxHitPoints(250);
       Assert_maxShields(0);
@@ -1126,12 +1318,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(7);
       Assert_dimensionUp(10);
       Assert_dimensionRight(7);
       Assert_dimensionDown(11);
       Assert_width(15);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(22);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(352);
       Assert_groundWeapon(C_10_Canister_Rifle_Sarah_Kerrigan);
@@ -1173,18 +1368,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Alan_Schezar)
+    TEST_METHOD(UnitTypeHero_Alan_Schezar)
     {
       auto t = BWAPI::UnitTypes::Hero_Alan_Schezar;
+      Assert_enum(Hero_Alan_Schezar);
 
+      Assert_getName(Hero_Alan_Schezar);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Vehicle_Plating, BWAPI::UpgradeTypes::Terran_Vehicle_Weapons }, t.upgrades());
       Assert_armorUpgrade(Terran_Vehicle_Plating);
       Assert_maxHitPoints(300);
       Assert_maxShields(0);
@@ -1203,12 +1409,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(160);
       Assert_sightRange(256);
       Assert_groundWeapon(Twin_Autocannons_Alan_Schezar);
@@ -1250,18 +1459,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Jim_Raynor_Vulture)
+    TEST_METHOD(UnitTypeHero_Jim_Raynor_Vulture)
     {
       auto t = BWAPI::UnitTypes::Hero_Jim_Raynor_Vulture;
+      Assert_enum(Hero_Jim_Raynor_Vulture);
 
+      Assert_getName(Hero_Jim_Raynor_Vulture);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Spider_Mines }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Vehicle_Plating, BWAPI::UpgradeTypes::Terran_Vehicle_Weapons }, t.upgrades());
       Assert_armorUpgrade(Terran_Vehicle_Plating);
       Assert_maxHitPoints(300);
       Assert_maxShields(0);
@@ -1280,12 +1500,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(Fragmentation_Grenade_Jim_Raynor);
@@ -1327,18 +1550,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Jim_Raynor_Marine)
+    TEST_METHOD(UnitTypeHero_Jim_Raynor_Marine)
     {
       auto t = BWAPI::UnitTypes::Hero_Jim_Raynor_Marine;
+      Assert_enum(Hero_Jim_Raynor_Marine);
 
+      Assert_getName(Hero_Jim_Raynor_Marine);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Stim_Packs }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Infantry_Armor, BWAPI::UpgradeTypes::Terran_Infantry_Weapons }, t.upgrades());
       Assert_armorUpgrade(Terran_Infantry_Armor);
       Assert_maxHitPoints(200);
       Assert_maxShields(0);
@@ -1357,12 +1591,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(8);
       Assert_dimensionUp(9);
       Assert_dimensionRight(8);
       Assert_dimensionDown(10);
       Assert_width(17);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(20);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(224);
       Assert_groundWeapon(Gauss_Rifle_Jim_Raynor);
@@ -1404,18 +1641,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Tom_Kazansky)
+    TEST_METHOD(UnitTypeHero_Tom_Kazansky)
     {
       auto t = BWAPI::UnitTypes::Hero_Tom_Kazansky;
+      Assert_enum(Hero_Tom_Kazansky);
 
+      Assert_getName(Hero_Tom_Kazansky);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(Cloaking_Field);
+      AssertSetEquals({ BWAPI::TechTypes::Cloaking_Field }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Ship_Plating, BWAPI::UpgradeTypes::Terran_Ship_Weapons }, t.upgrades());
       Assert_armorUpgrade(Terran_Ship_Plating);
       Assert_maxHitPoints(500);
       Assert_maxShields(0);
@@ -1434,12 +1682,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(19);
       Assert_dimensionUp(15);
       Assert_dimensionRight(18);
       Assert_dimensionDown(14);
       Assert_width(38);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(30);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(224);
       Assert_groundWeapon(Burst_Lasers_Tom_Kazansky);
@@ -1481,18 +1732,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Magellan)
+    TEST_METHOD(UnitTypeHero_Magellan)
     {
       auto t = BWAPI::UnitTypes::Hero_Magellan;
+      Assert_enum(Hero_Magellan);
 
+      Assert_getName(Hero_Magellan);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::EMP_Shockwave, BWAPI::TechTypes::Defensive_Matrix, BWAPI::TechTypes::Irradiate }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Ship_Plating }, t.upgrades());
       Assert_armorUpgrade(Terran_Ship_Plating);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
@@ -1511,12 +1773,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(32);
       Assert_dimensionUp(33);
       Assert_dimensionRight(32);
       Assert_dimensionDown(16);
       Assert_width(65);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(50);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -1558,18 +1823,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Edmund_Duke_Tank_Mode)
+    TEST_METHOD(UnitTypeHero_Edmund_Duke_Tank_Mode)
     {
       auto t = BWAPI::UnitTypes::Hero_Edmund_Duke_Tank_Mode;
+      Assert_enum(Hero_Edmund_Duke_Tank_Mode);
 
+      Assert_getName(Hero_Edmund_Duke_Tank_Mode);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Tank_Siege_Mode }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Vehicle_Plating, BWAPI::UpgradeTypes::Terran_Vehicle_Weapons }, t.upgrades());
       Assert_armorUpgrade(Terran_Vehicle_Plating);
       Assert_maxHitPoints(400);
       Assert_maxShields(0);
@@ -1588,12 +1864,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(256);
       Assert_sightRange(320);
       Assert_groundWeapon(Arclite_Cannon_Edmund_Duke);
@@ -1635,18 +1914,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Edmund_Duke_Siege_Mode)
+    TEST_METHOD(UnitTypeHero_Edmund_Duke_Siege_Mode)
     {
       auto t = BWAPI::UnitTypes::Hero_Edmund_Duke_Siege_Mode;
+      Assert_enum(Hero_Edmund_Duke_Siege_Mode);
 
+      Assert_getName(Hero_Edmund_Duke_Siege_Mode);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Tank_Siege_Mode }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Vehicle_Plating, BWAPI::UpgradeTypes::Terran_Vehicle_Weapons }, t.upgrades());
       Assert_armorUpgrade(Terran_Vehicle_Plating);
       Assert_maxHitPoints(400);
       Assert_maxShields(0);
@@ -1665,12 +1955,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(Arclite_Shock_Cannon_Edmund_Duke);
@@ -1712,18 +2005,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Arcturus_Mengsk)
+    TEST_METHOD(UnitTypeHero_Arcturus_Mengsk)
     {
       auto t = BWAPI::UnitTypes::Hero_Arcturus_Mengsk;
+      Assert_enum(Hero_Arcturus_Mengsk);
 
+      Assert_getName(Hero_Arcturus_Mengsk);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Ship_Plating, BWAPI::UpgradeTypes::Terran_Ship_Weapons }, t.upgrades());
       Assert_armorUpgrade(Terran_Ship_Plating);
       Assert_maxHitPoints(1000);
       Assert_maxShields(0);
@@ -1742,12 +2046,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(37);
       Assert_dimensionUp(29);
       Assert_dimensionRight(37);
       Assert_dimensionDown(29);
       Assert_width(75);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(59);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(ATS_Laser_Battery_Hero);
@@ -1789,18 +2096,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Hyperion)
+    TEST_METHOD(UnitTypeHero_Hyperion)
     {
       auto t = BWAPI::UnitTypes::Hero_Hyperion;
+      Assert_enum(Hero_Hyperion);
 
+      Assert_getName(Hero_Hyperion);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Yamato_Gun }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Ship_Plating, BWAPI::UpgradeTypes::Terran_Ship_Weapons }, t.upgrades());
       Assert_armorUpgrade(Terran_Ship_Plating);
       Assert_maxHitPoints(850);
       Assert_maxShields(0);
@@ -1819,12 +2137,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(37);
       Assert_dimensionUp(29);
       Assert_dimensionRight(37);
       Assert_dimensionDown(29);
       Assert_width(75);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(59);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(352);
       Assert_groundWeapon(ATS_Laser_Battery_Hyperion);
@@ -1866,18 +2187,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Norad_II)
+    TEST_METHOD(UnitTypeHero_Norad_II)
     {
       auto t = BWAPI::UnitTypes::Hero_Norad_II;
+      Assert_enum(Hero_Norad_II);
 
+      Assert_getName(Hero_Norad_II);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Yamato_Gun }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Ship_Plating, BWAPI::UpgradeTypes::Terran_Ship_Weapons }, t.upgrades());
       Assert_armorUpgrade(Terran_Ship_Plating);
       Assert_maxHitPoints(700);
       Assert_maxShields(0);
@@ -1896,12 +2228,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(37);
       Assert_dimensionUp(29);
       Assert_dimensionRight(37);
       Assert_dimensionDown(29);
       Assert_width(75);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(59);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(352);
       Assert_groundWeapon(ATS_Laser_Battery_Hero);
@@ -1943,18 +2278,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Siege_Tank_Siege_Mode)
+    TEST_METHOD(UnitTypeTerran_Siege_Tank_Siege_Mode)
     {
       auto t = BWAPI::UnitTypes::Terran_Siege_Tank_Siege_Mode;
+      Assert_enum(Terran_Siege_Tank_Siege_Mode);
 
+      Assert_getName(Terran_Siege_Tank_Siege_Mode);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_Factory, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_Factory, 1 }, { BWAPI::UnitTypes::Terran_Machine_Shop, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Tank_Siege_Mode }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Vehicle_Plating, BWAPI::UpgradeTypes::Terran_Vehicle_Weapons }, t.upgrades());
       Assert_armorUpgrade(Terran_Vehicle_Plating);
       Assert_maxHitPoints(150);
       Assert_maxShields(0);
@@ -1973,12 +2319,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(Arclite_Shock_Cannon);
@@ -2020,18 +2369,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Firebat)
+    TEST_METHOD(UnitTypeTerran_Firebat)
     {
       auto t = BWAPI::UnitTypes::Terran_Firebat;
+      Assert_enum(Terran_Firebat);
 
+      Assert_getName(Terran_Firebat);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_Barracks, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_Barracks, 1 }, { BWAPI::UnitTypes::Terran_Academy, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Stim_Packs }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Infantry_Armor, BWAPI::UpgradeTypes::Terran_Infantry_Weapons }, t.upgrades());
       Assert_armorUpgrade(Terran_Infantry_Armor);
       Assert_maxHitPoints(50);
       Assert_maxShields(0);
@@ -2050,12 +2410,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(11);
       Assert_dimensionUp(7);
       Assert_dimensionRight(11);
       Assert_dimensionDown(14);
       Assert_width(23);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(22);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(96);
       Assert_sightRange(224);
       Assert_groundWeapon(Flame_Thrower);
@@ -2097,18 +2460,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpell_Scanner_Sweep)
+    TEST_METHOD(UnitTypeSpell_Scanner_Sweep)
     {
       auto t = BWAPI::UnitTypes::Spell_Scanner_Sweep;
+      Assert_enum(Spell_Scanner_Sweep);
 
+      Assert_getName(Spell_Scanner_Sweep);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(0);
       Assert_maxShields(0);
@@ -2127,12 +2501,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(13);
       Assert_dimensionUp(13);
       Assert_dimensionRight(13);
       Assert_dimensionDown(17);
       Assert_width(27);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(31);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -2174,18 +2551,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(true);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Medic)
+    TEST_METHOD(UnitTypeTerran_Medic)
     {
       auto t = BWAPI::UnitTypes::Terran_Medic;
+      Assert_enum(Terran_Medic);
 
+      Assert_getName(Terran_Medic);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_Barracks, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_Barracks, 1 }, { BWAPI::UnitTypes::Terran_Academy, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Restoration, BWAPI::TechTypes::Optical_Flare, BWAPI::TechTypes::Healing }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Infantry_Armor, BWAPI::UpgradeTypes::Caduceus_Reactor }, t.upgrades());
       Assert_armorUpgrade(Terran_Infantry_Armor);
       Assert_maxHitPoints(60);
       Assert_maxShields(0);
@@ -2204,12 +2592,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(8);
       Assert_dimensionUp(9);
       Assert_dimensionRight(8);
       Assert_dimensionDown(10);
       Assert_width(17);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(20);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(288);
       Assert_sightRange(288);
       Assert_groundWeapon(None);
@@ -2251,18 +2642,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Larva)
+    TEST_METHOD(UnitTypeZerg_Larva)
     {
       auto t = BWAPI::UnitTypes::Zerg_Larva;
+      Assert_enum(Zerg_Larva);
 
+      Assert_getName(Zerg_Larva);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Hatchery, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Hatchery, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Carapace }, t.upgrades());
       Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(25);
       Assert_maxShields(0);
@@ -2281,12 +2683,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(8);
       Assert_dimensionUp(8);
       Assert_dimensionRight(7);
       Assert_dimensionDown(7);
       Assert_width(16);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(16);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(128);
       Assert_groundWeapon(None);
@@ -2328,18 +2733,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({ BWAPI::UnitTypes::Zerg_Hydralisk, BWAPI::UnitTypes::Zerg_Defiler, BWAPI::UnitTypes::Zerg_Drone, BWAPI::UnitTypes::Zerg_Mutalisk, BWAPI::UnitTypes::Zerg_Overlord, BWAPI::UnitTypes::Zerg_Zergling, BWAPI::UnitTypes::Zerg_Queen, BWAPI::UnitTypes::Zerg_Ultralisk, BWAPI::UnitTypes::Zerg_Scourge }, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Egg)
+    TEST_METHOD(UnitTypeZerg_Egg)
     {
       auto t = BWAPI::UnitTypes::Zerg_Egg;
+      Assert_enum(Zerg_Egg);
 
+      Assert_getName(Zerg_Egg);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Larva, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Larva, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Carapace }, t.upgrades());
       Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(200);
       Assert_maxShields(0);
@@ -2358,12 +2774,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(128);
       Assert_groundWeapon(None);
@@ -2405,18 +2824,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Zergling)
+    TEST_METHOD(UnitTypeZerg_Zergling)
     {
       auto t = BWAPI::UnitTypes::Zerg_Zergling;
+      Assert_enum(Zerg_Zergling);
 
+      Assert_getName(Zerg_Zergling);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Larva, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Larva, 1 }, { BWAPI::UnitTypes::Zerg_Spawning_Pool, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Burrowing }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Carapace, BWAPI::UpgradeTypes::Metabolic_Boost, BWAPI::UpgradeTypes::Zerg_Melee_Attacks, BWAPI::UpgradeTypes::Adrenal_Glands }, t.upgrades());
       Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(35);
       Assert_maxShields(0);
@@ -2435,12 +2865,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(8);
       Assert_dimensionUp(4);
       Assert_dimensionRight(7);
       Assert_dimensionDown(11);
       Assert_width(16);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(16);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(96);
       Assert_sightRange(160);
       Assert_groundWeapon(Claws);
@@ -2482,18 +2915,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Hydralisk)
+    TEST_METHOD(UnitTypeZerg_Hydralisk)
     {
       auto t = BWAPI::UnitTypes::Zerg_Hydralisk;
+      Assert_enum(Zerg_Hydralisk);
 
+      Assert_getName(Zerg_Hydralisk);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Larva, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Larva, 1 }, { BWAPI::UnitTypes::Zerg_Hydralisk_Den, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Burrowing }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Carapace, BWAPI::UpgradeTypes::Zerg_Melee_Attacks, BWAPI::UpgradeTypes::Muscular_Augments, BWAPI::UpgradeTypes::Grooved_Spines }, t.upgrades());
       Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(80);
       Assert_maxShields(0);
@@ -2512,12 +2956,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(10);
       Assert_dimensionUp(10);
       Assert_dimensionRight(10);
       Assert_dimensionDown(12);
       Assert_width(21);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(23);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(192);
       Assert_groundWeapon(Needle_Spines);
@@ -2559,18 +3006,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({ BWAPI::UnitTypes::Zerg_Lurker }, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Ultralisk)
+    TEST_METHOD(UnitTypeZerg_Ultralisk)
     {
       auto t = BWAPI::UnitTypes::Zerg_Ultralisk;
+      Assert_enum(Zerg_Ultralisk);
 
+      Assert_getName(Zerg_Ultralisk);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Larva, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Larva, 1 }, { BWAPI::UnitTypes::Zerg_Ultralisk_Cavern, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Carapace, BWAPI::UpgradeTypes::Zerg_Melee_Attacks, BWAPI::UpgradeTypes::Chitinous_Plating, BWAPI::UpgradeTypes::Anabolic_Synthesis }, t.upgrades());
       Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(400);
       Assert_maxShields(0);
@@ -2589,12 +3047,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(19);
       Assert_dimensionUp(16);
       Assert_dimensionRight(18);
       Assert_dimensionDown(15);
       Assert_width(38);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(96);
       Assert_sightRange(224);
       Assert_groundWeapon(Kaiser_Blades);
@@ -2636,18 +3097,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Broodling)
+    TEST_METHOD(UnitTypeZerg_Broodling)
     {
       auto t = BWAPI::UnitTypes::Zerg_Broodling;
+      Assert_enum(Zerg_Broodling);
 
+      Assert_getName(Zerg_Broodling);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Carapace, BWAPI::UpgradeTypes::Zerg_Melee_Attacks }, t.upgrades());
       Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(30);
       Assert_maxShields(0);
@@ -2666,12 +3138,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(9);
       Assert_dimensionUp(9);
       Assert_dimensionRight(9);
       Assert_dimensionDown(9);
       Assert_width(19);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(19);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(96);
       Assert_sightRange(160);
       Assert_groundWeapon(Toxic_Spores);
@@ -2713,18 +3188,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Drone)
+    TEST_METHOD(UnitTypeZerg_Drone)
     {
       auto t = BWAPI::UnitTypes::Zerg_Drone;
+      Assert_enum(Zerg_Drone);
 
+      Assert_getName(Zerg_Drone);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Larva, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Larva, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Burrowing }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Carapace }, t.upgrades());
       Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(40);
       Assert_maxShields(0);
@@ -2743,12 +3229,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(11);
       Assert_dimensionUp(11);
       Assert_dimensionRight(11);
       Assert_dimensionDown(11);
       Assert_width(23);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(23);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(224);
       Assert_groundWeapon(Spines);
@@ -2790,18 +3279,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({ BWAPI::UnitTypes::Zerg_Hydralisk_Den, BWAPI::UnitTypes::Zerg_Creep_Colony, BWAPI::UnitTypes::Zerg_Defiler_Mound, BWAPI::UnitTypes::Zerg_Hatchery, BWAPI::UnitTypes::Zerg_Evolution_Chamber, BWAPI::UnitTypes::Zerg_Extractor, BWAPI::UnitTypes::Zerg_Spawning_Pool, BWAPI::UnitTypes::Zerg_Nydus_Canal, BWAPI::UnitTypes::Zerg_Queens_Nest, BWAPI::UnitTypes::Zerg_Spire, BWAPI::UnitTypes::Zerg_Ultralisk_Cavern }, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Overlord)
+    TEST_METHOD(UnitTypeZerg_Overlord)
     {
       auto t = BWAPI::UnitTypes::Zerg_Overlord;
+      Assert_enum(Zerg_Overlord);
 
+      Assert_getName(Zerg_Overlord);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Larva, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Larva, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Flyer_Carapace, BWAPI::UpgradeTypes::Ventral_Sacs, BWAPI::UpgradeTypes::Antennae, BWAPI::UpgradeTypes::Pneumatized_Carapace }, t.upgrades());
       Assert_armorUpgrade(Zerg_Flyer_Carapace);
       Assert_maxHitPoints(200);
       Assert_maxShields(0);
@@ -2820,12 +3320,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(25);
       Assert_dimensionUp(25);
       Assert_dimensionRight(24);
       Assert_dimensionDown(24);
       Assert_width(50);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(50);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(288);
       Assert_groundWeapon(None);
@@ -2867,18 +3370,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Mutalisk)
+    TEST_METHOD(UnitTypeZerg_Mutalisk)
     {
       auto t = BWAPI::UnitTypes::Zerg_Mutalisk;
+      Assert_enum(Zerg_Mutalisk);
 
+      Assert_getName(Zerg_Mutalisk);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Larva, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Larva, 1 }, { BWAPI::UnitTypes::Zerg_Spire, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Flyer_Carapace, BWAPI::UpgradeTypes::Zerg_Flyer_Attacks }, t.upgrades());
       Assert_armorUpgrade(Zerg_Flyer_Carapace);
       Assert_maxHitPoints(120);
       Assert_maxShields(0);
@@ -2897,12 +3411,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(22);
       Assert_dimensionUp(22);
       Assert_dimensionRight(21);
       Assert_dimensionDown(21);
       Assert_width(44);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(44);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(96);
       Assert_sightRange(224);
       Assert_groundWeapon(Glave_Wurm);
@@ -2944,18 +3461,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({ BWAPI::UnitTypes::Zerg_Guardian, BWAPI::UnitTypes::Zerg_Devourer }, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Guardian)
+    TEST_METHOD(UnitTypeZerg_Guardian)
     {
       auto t = BWAPI::UnitTypes::Zerg_Guardian;
+      Assert_enum(Zerg_Guardian);
 
+      Assert_getName(Zerg_Guardian);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Mutalisk, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Mutalisk, 1 }, { BWAPI::UnitTypes::Zerg_Greater_Spire, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Flyer_Carapace, BWAPI::UpgradeTypes::Zerg_Flyer_Attacks }, t.upgrades());
       Assert_armorUpgrade(Zerg_Flyer_Carapace);
       Assert_maxHitPoints(150);
       Assert_maxShields(0);
@@ -2974,12 +3502,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(22);
       Assert_dimensionUp(22);
       Assert_dimensionRight(21);
       Assert_dimensionDown(21);
       Assert_width(44);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(44);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(352);
       Assert_groundWeapon(Acid_Spore);
@@ -3021,18 +3552,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Queen)
+    TEST_METHOD(UnitTypeZerg_Queen)
     {
       auto t = BWAPI::UnitTypes::Zerg_Queen;
+      Assert_enum(Zerg_Queen);
 
+      Assert_getName(Zerg_Queen);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Larva, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Larva, 1 }, { BWAPI::UnitTypes::Zerg_Queens_Nest, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Infestation, BWAPI::TechTypes::Spawn_Broodlings, BWAPI::TechTypes::Ensnare, BWAPI::TechTypes::Parasite }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Flyer_Carapace, BWAPI::UpgradeTypes::Gamete_Meiosis }, t.upgrades());
       Assert_armorUpgrade(Zerg_Flyer_Carapace);
       Assert_maxHitPoints(120);
       Assert_maxShields(0);
@@ -3051,12 +3593,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(24);
       Assert_dimensionUp(24);
       Assert_dimensionRight(23);
       Assert_dimensionDown(23);
       Assert_width(48);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(48);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(256);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -3098,18 +3643,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Defiler)
+    TEST_METHOD(UnitTypeZerg_Defiler)
     {
       auto t = BWAPI::UnitTypes::Zerg_Defiler;
+      Assert_enum(Zerg_Defiler);
 
+      Assert_getName(Zerg_Defiler);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Larva, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Larva, 1 }, { BWAPI::UnitTypes::Zerg_Defiler_Mound, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Burrowing, BWAPI::TechTypes::Dark_Swarm, BWAPI::TechTypes::Plague, BWAPI::TechTypes::Consume }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Carapace, BWAPI::UpgradeTypes::Metasynaptic_Node }, t.upgrades());
       Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(80);
       Assert_maxShields(0);
@@ -3128,12 +3684,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(13);
       Assert_dimensionUp(12);
       Assert_dimensionRight(13);
       Assert_dimensionDown(12);
       Assert_width(27);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(25);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -3175,18 +3734,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Scourge)
+    TEST_METHOD(UnitTypeZerg_Scourge)
     {
       auto t = BWAPI::UnitTypes::Zerg_Scourge;
+      Assert_enum(Zerg_Scourge);
 
+      Assert_getName(Zerg_Scourge);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Larva, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Larva, 1 }, { BWAPI::UnitTypes::Zerg_Spire, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Flyer_Carapace }, t.upgrades());
       Assert_armorUpgrade(Zerg_Flyer_Carapace);
       Assert_maxHitPoints(25);
       Assert_maxShields(0);
@@ -3205,12 +3775,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(12);
       Assert_dimensionUp(12);
       Assert_dimensionRight(11);
       Assert_dimensionDown(11);
       Assert_width(24);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(24);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(96);
       Assert_sightRange(160);
       Assert_groundWeapon(None);
@@ -3252,18 +3825,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Torrasque)
+    TEST_METHOD(UnitTypeHero_Torrasque)
     {
       auto t = BWAPI::UnitTypes::Hero_Torrasque;
+      Assert_enum(Hero_Torrasque);
 
+      Assert_getName(Hero_Torrasque);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Carapace, BWAPI::UpgradeTypes::Zerg_Melee_Attacks }, t.upgrades());
       Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
@@ -3282,12 +3866,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(19);
       Assert_dimensionUp(16);
       Assert_dimensionRight(18);
       Assert_dimensionDown(15);
       Assert_width(38);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(96);
       Assert_sightRange(224);
       Assert_groundWeapon(Kaiser_Blades_Torrasque);
@@ -3329,18 +3916,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Matriarch)
+    TEST_METHOD(UnitTypeHero_Matriarch)
     {
       auto t = BWAPI::UnitTypes::Hero_Matriarch;
+      Assert_enum(Hero_Matriarch);
 
+      Assert_getName(Hero_Matriarch);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Infestation, BWAPI::TechTypes::Spawn_Broodlings, BWAPI::TechTypes::Ensnare, BWAPI::TechTypes::Parasite }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Flyer_Carapace }, t.upgrades());
       Assert_armorUpgrade(Zerg_Flyer_Carapace);
       Assert_maxHitPoints(300);
       Assert_maxShields(0);
@@ -3359,12 +3957,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(24);
       Assert_dimensionUp(24);
       Assert_dimensionRight(23);
       Assert_dimensionDown(23);
       Assert_width(48);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(48);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(256);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -3406,18 +4007,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Infested_Terran)
+    TEST_METHOD(UnitTypeZerg_Infested_Terran)
     {
       auto t = BWAPI::UnitTypes::Zerg_Infested_Terran;
+      Assert_enum(Zerg_Infested_Terran);
 
+      Assert_getName(Zerg_Infested_Terran);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Infested_Command_Center, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Infested_Command_Center, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Burrowing }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Carapace }, t.upgrades());
       Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(60);
       Assert_maxShields(0);
@@ -3436,12 +4048,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(8);
       Assert_dimensionUp(9);
       Assert_dimensionRight(8);
       Assert_dimensionDown(10);
       Assert_width(17);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(20);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(96);
       Assert_sightRange(160);
       Assert_groundWeapon(Suicide_Infested_Terran);
@@ -3483,18 +4098,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Infested_Kerrigan)
+    TEST_METHOD(UnitTypeHero_Infested_Kerrigan)
     {
       auto t = BWAPI::UnitTypes::Hero_Infested_Kerrigan;
+      Assert_enum(Hero_Infested_Kerrigan);
 
+      Assert_getName(Hero_Infested_Kerrigan);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(Personnel_Cloaking);
+      AssertSetEquals({ BWAPI::TechTypes::Personnel_Cloaking, BWAPI::TechTypes::Ensnare, BWAPI::TechTypes::Psionic_Storm, BWAPI::TechTypes::Consume }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Carapace, BWAPI::UpgradeTypes::Zerg_Melee_Attacks }, t.upgrades());
       Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(400);
       Assert_maxShields(0);
@@ -3513,12 +4139,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(7);
       Assert_dimensionUp(10);
       Assert_dimensionRight(7);
       Assert_dimensionDown(11);
       Assert_width(15);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(22);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(96);
       Assert_sightRange(288);
       Assert_groundWeapon(Claws_Infested_Kerrigan);
@@ -3560,18 +4189,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Unclean_One)
+    TEST_METHOD(UnitTypeHero_Unclean_One)
     {
       auto t = BWAPI::UnitTypes::Hero_Unclean_One;
+      Assert_enum(Hero_Unclean_One);
 
+      Assert_getName(Hero_Unclean_One);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Burrowing, BWAPI::TechTypes::Dark_Swarm, BWAPI::TechTypes::Plague, BWAPI::TechTypes::Consume }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Carapace }, t.upgrades());
       Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(250);
       Assert_maxShields(0);
@@ -3590,12 +4230,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(13);
       Assert_dimensionUp(12);
       Assert_dimensionRight(13);
       Assert_dimensionDown(12);
       Assert_width(27);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(25);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -3637,18 +4280,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Hunter_Killer)
+    TEST_METHOD(UnitTypeHero_Hunter_Killer)
     {
       auto t = BWAPI::UnitTypes::Hero_Hunter_Killer;
+      Assert_enum(Hero_Hunter_Killer);
 
+      Assert_getName(Hero_Hunter_Killer);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Burrowing }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Carapace, BWAPI::UpgradeTypes::Zerg_Missile_Attacks }, t.upgrades());
       Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(160);
       Assert_maxShields(0);
@@ -3667,12 +4321,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(10);
       Assert_dimensionUp(10);
       Assert_dimensionRight(10);
       Assert_dimensionDown(12);
       Assert_width(21);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(23);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(Needle_Spines_Hunter_Killer);
@@ -3714,18 +4371,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Devouring_One)
+    TEST_METHOD(UnitTypeHero_Devouring_One)
     {
       auto t = BWAPI::UnitTypes::Hero_Devouring_One;
+      Assert_enum(Hero_Devouring_One);
 
+      Assert_getName(Hero_Devouring_One);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Burrowing }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Carapace, BWAPI::UpgradeTypes::Zerg_Melee_Attacks }, t.upgrades());
       Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(120);
       Assert_maxShields(0);
@@ -3744,12 +4412,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(8);
       Assert_dimensionUp(4);
       Assert_dimensionRight(7);
       Assert_dimensionDown(11);
       Assert_width(16);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(16);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(96);
       Assert_sightRange(160);
       Assert_groundWeapon(Claws_Devouring_One);
@@ -3791,18 +4462,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Kukulza_Mutalisk)
+    TEST_METHOD(UnitTypeHero_Kukulza_Mutalisk)
     {
       auto t = BWAPI::UnitTypes::Hero_Kukulza_Mutalisk;
+      Assert_enum(Hero_Kukulza_Mutalisk);
 
+      Assert_getName(Hero_Kukulza_Mutalisk);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Flyer_Carapace, BWAPI::UpgradeTypes::Zerg_Flyer_Attacks }, t.upgrades());
       Assert_armorUpgrade(Zerg_Flyer_Carapace);
       Assert_maxHitPoints(300);
       Assert_maxShields(0);
@@ -3821,12 +4503,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(22);
       Assert_dimensionUp(22);
       Assert_dimensionRight(21);
       Assert_dimensionDown(21);
       Assert_width(44);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(44);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(96);
       Assert_sightRange(224);
       Assert_groundWeapon(Glave_Wurm_Kukulza);
@@ -3868,18 +4553,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Kukulza_Guardian)
+    TEST_METHOD(UnitTypeHero_Kukulza_Guardian)
     {
       auto t = BWAPI::UnitTypes::Hero_Kukulza_Guardian;
+      Assert_enum(Hero_Kukulza_Guardian);
 
+      Assert_getName(Hero_Kukulza_Guardian);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Flyer_Carapace, BWAPI::UpgradeTypes::Zerg_Flyer_Attacks }, t.upgrades());
       Assert_armorUpgrade(Zerg_Flyer_Carapace);
       Assert_maxHitPoints(400);
       Assert_maxShields(0);
@@ -3898,12 +4594,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(22);
       Assert_dimensionUp(22);
       Assert_dimensionRight(21);
       Assert_dimensionDown(21);
       Assert_width(44);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(44);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(352);
       Assert_groundWeapon(Acid_Spore_Kukulza);
@@ -3945,18 +4644,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Yggdrasill)
+    TEST_METHOD(UnitTypeHero_Yggdrasill)
     {
       auto t = BWAPI::UnitTypes::Hero_Yggdrasill;
+      Assert_enum(Hero_Yggdrasill);
 
+      Assert_getName(Hero_Yggdrasill);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Flyer_Carapace }, t.upgrades());
       Assert_armorUpgrade(Zerg_Flyer_Carapace);
       Assert_maxHitPoints(1000);
       Assert_maxShields(0);
@@ -3975,12 +4685,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(25);
       Assert_dimensionUp(25);
       Assert_dimensionRight(24);
       Assert_dimensionDown(24);
       Assert_width(50);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(50);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(352);
       Assert_groundWeapon(None);
@@ -4022,18 +4735,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Valkyrie)
+    TEST_METHOD(UnitTypeTerran_Valkyrie)
     {
       auto t = BWAPI::UnitTypes::Terran_Valkyrie;
+      Assert_enum(Terran_Valkyrie);
 
+      Assert_getName(Terran_Valkyrie);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_Starport, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_Starport, 1 }, { BWAPI::UnitTypes::Terran_Control_Tower, 1 }, { BWAPI::UnitTypes::Terran_Armory, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Ship_Plating, BWAPI::UpgradeTypes::Terran_Ship_Weapons }, t.upgrades());
       Assert_armorUpgrade(Terran_Ship_Plating);
       Assert_maxHitPoints(200);
       Assert_maxShields(0);
@@ -4052,12 +4776,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(24);
       Assert_dimensionUp(16);
       Assert_dimensionRight(24);
       Assert_dimensionDown(20);
       Assert_width(49);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(37);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -4099,18 +4826,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Cocoon)
+    TEST_METHOD(UnitTypeZerg_Cocoon)
     {
       auto t = BWAPI::UnitTypes::Zerg_Cocoon;
+      Assert_enum(Zerg_Cocoon);
 
+      Assert_getName(Zerg_Cocoon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Mutalisk, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Mutalisk, 1 }, { BWAPI::UnitTypes::Zerg_Greater_Spire, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Carapace }, t.upgrades());
       Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(200);
       Assert_maxShields(0);
@@ -4129,12 +4867,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(128);
       Assert_groundWeapon(None);
@@ -4176,18 +4917,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Corsair)
+    TEST_METHOD(UnitTypeProtoss_Corsair)
     {
       auto t = BWAPI::UnitTypes::Protoss_Corsair;
+      Assert_enum(Protoss_Corsair);
 
+      Assert_getName(Protoss_Corsair);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Stargate, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Stargate, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Disruption_Web }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Argus_Jewel, BWAPI::UpgradeTypes::Protoss_Air_Armor, BWAPI::UpgradeTypes::Protoss_Air_Weapons }, t.upgrades());
       Assert_armorUpgrade(Protoss_Air_Armor);
       Assert_maxHitPoints(100);
       Assert_maxShields(80);
@@ -4206,12 +4958,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(18);
       Assert_dimensionUp(16);
       Assert_dimensionRight(17);
       Assert_dimensionDown(15);
       Assert_width(36);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(288);
       Assert_sightRange(288);
       Assert_groundWeapon(None);
@@ -4253,18 +5008,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Dark_Templar)
+    TEST_METHOD(UnitTypeProtoss_Dark_Templar)
     {
       auto t = BWAPI::UnitTypes::Protoss_Dark_Templar;
+      Assert_enum(Protoss_Dark_Templar);
 
+      Assert_getName(Protoss_Dark_Templar);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Gateway, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Gateway, 1 }, { BWAPI::UnitTypes::Protoss_Templar_Archives, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Dark_Archon_Meld }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Protoss_Ground_Armor, BWAPI::UpgradeTypes::Protoss_Ground_Weapons }, t.upgrades());
       Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(80);
       Assert_maxShields(40);
@@ -4283,12 +5049,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(12);
       Assert_dimensionUp(6);
       Assert_dimensionRight(11);
       Assert_dimensionDown(19);
       Assert_width(24);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(26);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(96);
       Assert_sightRange(224);
       Assert_groundWeapon(Warp_Blades);
@@ -4330,18 +5099,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({ BWAPI::UnitTypes::Protoss_Dark_Archon }, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Devourer)
+    TEST_METHOD(UnitTypeZerg_Devourer)
     {
       auto t = BWAPI::UnitTypes::Zerg_Devourer;
+      Assert_enum(Zerg_Devourer);
 
+      Assert_getName(Zerg_Devourer);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Mutalisk, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Mutalisk, 1 }, { BWAPI::UnitTypes::Zerg_Greater_Spire, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Flyer_Carapace, BWAPI::UpgradeTypes::Zerg_Flyer_Attacks }, t.upgrades());
       Assert_armorUpgrade(Zerg_Flyer_Carapace);
       Assert_maxHitPoints(250);
       Assert_maxShields(0);
@@ -4360,12 +5140,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(22);
       Assert_dimensionUp(22);
       Assert_dimensionRight(21);
       Assert_dimensionDown(21);
       Assert_width(44);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(44);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(224);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -4407,18 +5190,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Dark_Archon)
+    TEST_METHOD(UnitTypeProtoss_Dark_Archon)
     {
       auto t = BWAPI::UnitTypes::Protoss_Dark_Archon;
+      Assert_enum(Protoss_Dark_Archon);
 
+      Assert_getName(Protoss_Dark_Archon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Dark_Templar, 2);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Dark_Templar, 2 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Mind_Control, BWAPI::TechTypes::Feedback, BWAPI::TechTypes::Maelstrom }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Protoss_Air_Armor, BWAPI::UpgradeTypes::Protoss_Air_Weapons, BWAPI::UpgradeTypes::Argus_Talisman }, t.upgrades());
       Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(25);
       Assert_maxShields(200);
@@ -4437,12 +5231,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(224);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -4484,18 +5281,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Probe)
+    TEST_METHOD(UnitTypeProtoss_Probe)
     {
       auto t = BWAPI::UnitTypes::Protoss_Probe;
+      Assert_enum(Protoss_Probe);
 
+      Assert_getName(Protoss_Probe);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Nexus, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Nexus, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Protoss_Ground_Armor }, t.upgrades());
       Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(20);
       Assert_maxShields(20);
@@ -4514,12 +5322,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(11);
       Assert_dimensionUp(11);
       Assert_dimensionRight(11);
       Assert_dimensionDown(11);
       Assert_width(23);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(23);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(Particle_Beam);
@@ -4561,18 +5372,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({ BWAPI::UnitTypes::Protoss_Nexus, BWAPI::UnitTypes::Protoss_Arbiter_Tribunal, BWAPI::UnitTypes::Protoss_Assimilator, BWAPI::UnitTypes::Protoss_Citadel_of_Adun, BWAPI::UnitTypes::Protoss_Cybernetics_Core, BWAPI::UnitTypes::Protoss_Fleet_Beacon, BWAPI::UnitTypes::Protoss_Forge, BWAPI::UnitTypes::Protoss_Gateway, BWAPI::UnitTypes::Protoss_Observatory, BWAPI::UnitTypes::Protoss_Photon_Cannon, BWAPI::UnitTypes::Protoss_Pylon, BWAPI::UnitTypes::Protoss_Robotics_Facility, BWAPI::UnitTypes::Protoss_Robotics_Support_Bay, BWAPI::UnitTypes::Protoss_Shield_Battery, BWAPI::UnitTypes::Protoss_Stargate, BWAPI::UnitTypes::Protoss_Templar_Archives }, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Zealot)
+    TEST_METHOD(UnitTypeProtoss_Zealot)
     {
       auto t = BWAPI::UnitTypes::Protoss_Zealot;
+      Assert_enum(Protoss_Zealot);
 
+      Assert_getName(Protoss_Zealot);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Gateway, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Gateway, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Protoss_Ground_Armor, BWAPI::UpgradeTypes::Protoss_Ground_Weapons, BWAPI::UpgradeTypes::Leg_Enhancements }, t.upgrades());
       Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(100);
       Assert_maxShields(60);
@@ -4591,12 +5413,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(11);
       Assert_dimensionUp(5);
       Assert_dimensionRight(11);
       Assert_dimensionDown(13);
       Assert_width(23);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(19);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(96);
       Assert_sightRange(224);
       Assert_groundWeapon(Psi_Blades);
@@ -4638,18 +5463,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Dragoon)
+    TEST_METHOD(UnitTypeProtoss_Dragoon)
     {
       auto t = BWAPI::UnitTypes::Protoss_Dragoon;
+      Assert_enum(Protoss_Dragoon);
 
+      Assert_getName(Protoss_Dragoon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Gateway, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Gateway, 1 }, { BWAPI::UnitTypes::Protoss_Cybernetics_Core, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Protoss_Ground_Armor, BWAPI::UpgradeTypes::Protoss_Ground_Weapons, BWAPI::UpgradeTypes::Singularity_Charge }, t.upgrades());
       Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(100);
       Assert_maxShields(80);
@@ -4668,12 +5504,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(15);
       Assert_dimensionUp(15);
       Assert_dimensionRight(16);
       Assert_dimensionDown(16);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(Phase_Disruptor);
@@ -4715,18 +5554,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_High_Templar)
+    TEST_METHOD(UnitTypeProtoss_High_Templar)
     {
       auto t = BWAPI::UnitTypes::Protoss_High_Templar;
+      Assert_enum(Protoss_High_Templar);
 
+      Assert_getName(Protoss_High_Templar);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Gateway, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Gateway, 1 }, { BWAPI::UnitTypes::Protoss_Templar_Archives, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Psionic_Storm, BWAPI::TechTypes::Hallucination, BWAPI::TechTypes::Archon_Warp }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Protoss_Ground_Armor, BWAPI::UpgradeTypes::Khaydarin_Amulet }, t.upgrades());
       Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(40);
       Assert_maxShields(40);
@@ -4745,12 +5595,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(12);
       Assert_dimensionUp(10);
       Assert_dimensionRight(11);
       Assert_dimensionDown(13);
       Assert_width(24);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(24);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(96);
       Assert_sightRange(224);
       Assert_groundWeapon(None);
@@ -4792,18 +5645,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({ BWAPI::UnitTypes::Protoss_Archon }, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Archon)
+    TEST_METHOD(UnitTypeProtoss_Archon)
     {
       auto t = BWAPI::UnitTypes::Protoss_Archon;
+      Assert_enum(Protoss_Archon);
 
+      Assert_getName(Protoss_Archon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_High_Templar, 2);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_High_Templar, 2 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Protoss_Ground_Armor, BWAPI::UpgradeTypes::Protoss_Ground_Weapons }, t.upgrades());
       Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(10);
       Assert_maxShields(350);
@@ -4822,12 +5686,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(96);
       Assert_sightRange(256);
       Assert_groundWeapon(Psionic_Shockwave);
@@ -4869,18 +5736,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Shuttle)
+    TEST_METHOD(UnitTypeProtoss_Shuttle)
     {
       auto t = BWAPI::UnitTypes::Protoss_Shuttle;
+      Assert_enum(Protoss_Shuttle);
 
+      Assert_getName(Protoss_Shuttle);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Robotics_Facility, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Robotics_Facility, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Protoss_Air_Armor, BWAPI::UpgradeTypes::Gravitic_Drive }, t.upgrades());
       Assert_armorUpgrade(Protoss_Air_Armor);
       Assert_maxHitPoints(80);
       Assert_maxShields(60);
@@ -4899,12 +5777,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(2, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(20);
       Assert_dimensionUp(16);
       Assert_dimensionRight(19);
       Assert_dimensionDown(15);
       Assert_width(40);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -4946,18 +5827,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Scout)
+    TEST_METHOD(UnitTypeProtoss_Scout)
     {
       auto t = BWAPI::UnitTypes::Protoss_Scout;
+      Assert_enum(Protoss_Scout);
 
+      Assert_getName(Protoss_Scout);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Stargate, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Stargate, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Protoss_Air_Armor, BWAPI::UpgradeTypes::Protoss_Air_Weapons, BWAPI::UpgradeTypes::Apial_Sensors, BWAPI::UpgradeTypes::Gravitic_Thrusters }, t.upgrades());
       Assert_armorUpgrade(Protoss_Air_Armor);
       Assert_maxHitPoints(150);
       Assert_maxShields(100);
@@ -4976,12 +5868,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(2, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(18);
       Assert_dimensionUp(16);
       Assert_dimensionRight(17);
       Assert_dimensionDown(15);
       Assert_width(36);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(Dual_Photon_Blasters);
@@ -5023,18 +5918,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Arbiter)
+    TEST_METHOD(UnitTypeProtoss_Arbiter)
     {
       auto t = BWAPI::UnitTypes::Protoss_Arbiter;
+      Assert_enum(Protoss_Arbiter);
 
+      Assert_getName(Protoss_Arbiter);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Stargate, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Stargate, 1 }, { BWAPI::UnitTypes::Protoss_Arbiter_Tribunal, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Recall, BWAPI::TechTypes::Stasis_Field }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Protoss_Air_Armor, BWAPI::UpgradeTypes::Protoss_Air_Weapons, BWAPI::UpgradeTypes::Khaydarin_Core }, t.upgrades());
       Assert_armorUpgrade(Protoss_Air_Armor);
       Assert_maxHitPoints(200);
       Assert_maxShields(150);
@@ -5053,12 +5959,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(22);
       Assert_dimensionUp(22);
       Assert_dimensionRight(21);
       Assert_dimensionDown(21);
       Assert_width(44);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(44);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(288);
       Assert_groundWeapon(Phase_Disruptor_Cannon);
@@ -5100,18 +6009,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Carrier)
+    TEST_METHOD(UnitTypeProtoss_Carrier)
     {
       auto t = BWAPI::UnitTypes::Protoss_Carrier;
+      Assert_enum(Protoss_Carrier);
 
+      Assert_getName(Protoss_Carrier);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Stargate, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Stargate, 1 }, { BWAPI::UnitTypes::Protoss_Fleet_Beacon, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Protoss_Air_Armor, BWAPI::UpgradeTypes::Protoss_Air_Weapons, BWAPI::UpgradeTypes::Carrier_Capacity }, t.upgrades());
       Assert_armorUpgrade(Protoss_Air_Armor);
       Assert_maxHitPoints(300);
       Assert_maxShields(150);
@@ -5130,12 +6050,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(32);
       Assert_dimensionUp(32);
       Assert_dimensionRight(31);
       Assert_dimensionDown(31);
       Assert_width(64);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(64);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(256);
       Assert_sightRange(352);
       Assert_groundWeapon(None);
@@ -5177,18 +6100,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({ BWAPI::UnitTypes::Protoss_Interceptor }, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Interceptor)
+    TEST_METHOD(UnitTypeProtoss_Interceptor)
     {
       auto t = BWAPI::UnitTypes::Protoss_Interceptor;
+      Assert_enum(Protoss_Interceptor);
 
+      Assert_getName(Protoss_Interceptor);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Carrier, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Carrier, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Protoss_Air_Armor, BWAPI::UpgradeTypes::Protoss_Air_Weapons }, t.upgrades());
       Assert_armorUpgrade(Protoss_Air_Armor);
       Assert_maxHitPoints(40);
       Assert_maxShields(40);
@@ -5207,12 +6141,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(8);
       Assert_dimensionUp(8);
       Assert_dimensionRight(7);
       Assert_dimensionDown(7);
       Assert_width(16);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(16);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(192);
       Assert_groundWeapon(Pulse_Cannon);
@@ -5254,18 +6191,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Dark_Templar)
+    TEST_METHOD(UnitTypeHero_Dark_Templar)
     {
       auto t = BWAPI::UnitTypes::Hero_Dark_Templar;
+      Assert_enum(Hero_Dark_Templar);
 
+      Assert_getName(Hero_Dark_Templar);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Protoss_Ground_Armor, BWAPI::UpgradeTypes::Protoss_Ground_Weapons }, t.upgrades());
       Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(40);
       Assert_maxShields(80);
@@ -5284,12 +6232,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(12);
       Assert_dimensionUp(6);
       Assert_dimensionRight(11);
       Assert_dimensionDown(19);
       Assert_width(24);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(26);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(96);
       Assert_sightRange(224);
       Assert_groundWeapon(Warp_Blades_Hero);
@@ -5331,18 +6282,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Zeratul)
+    TEST_METHOD(UnitTypeHero_Zeratul)
     {
       auto t = BWAPI::UnitTypes::Hero_Zeratul;
+      Assert_enum(Hero_Zeratul);
 
+      Assert_getName(Hero_Zeratul);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Protoss_Ground_Armor, BWAPI::UpgradeTypes::Protoss_Ground_Weapons }, t.upgrades());
       Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(60);
       Assert_maxShields(400);
@@ -5361,12 +6323,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(12);
       Assert_dimensionUp(6);
       Assert_dimensionRight(11);
       Assert_dimensionDown(19);
       Assert_width(24);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(26);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(96);
       Assert_sightRange(224);
       Assert_groundWeapon(Warp_Blades_Zeratul);
@@ -5408,18 +6373,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Tassadar_Zeratul_Archon)
+    TEST_METHOD(UnitTypeHero_Tassadar_Zeratul_Archon)
     {
       auto t = BWAPI::UnitTypes::Hero_Tassadar_Zeratul_Archon;
+      Assert_enum(Hero_Tassadar_Zeratul_Archon);
 
+      Assert_getName(Hero_Tassadar_Zeratul_Archon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Protoss_Ground_Armor, BWAPI::UpgradeTypes::Protoss_Ground_Weapons }, t.upgrades());
       Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(100);
       Assert_maxShields(800);
@@ -5438,12 +6414,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(96);
       Assert_sightRange(256);
       Assert_groundWeapon(Psionic_Shockwave_TZ_Archon);
@@ -5485,18 +6464,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Fenix_Zealot)
+    TEST_METHOD(UnitTypeHero_Fenix_Zealot)
     {
       auto t = BWAPI::UnitTypes::Hero_Fenix_Zealot;
+      Assert_enum(Hero_Fenix_Zealot);
 
+      Assert_getName(Hero_Fenix_Zealot);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Protoss_Ground_Armor, BWAPI::UpgradeTypes::Protoss_Ground_Weapons }, t.upgrades());
       Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(240);
       Assert_maxShields(240);
@@ -5515,12 +6505,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(11);
       Assert_dimensionUp(5);
       Assert_dimensionRight(11);
       Assert_dimensionDown(13);
       Assert_width(23);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(19);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(96);
       Assert_sightRange(224);
       Assert_groundWeapon(Psi_Blades_Fenix);
@@ -5562,18 +6555,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Fenix_Dragoon)
+    TEST_METHOD(UnitTypeHero_Fenix_Dragoon)
     {
       auto t = BWAPI::UnitTypes::Hero_Fenix_Dragoon;
+      Assert_enum(Hero_Fenix_Dragoon);
 
+      Assert_getName(Hero_Fenix_Dragoon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Protoss_Ground_Armor, BWAPI::UpgradeTypes::Protoss_Ground_Weapons }, t.upgrades());
       Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(240);
       Assert_maxShields(240);
@@ -5592,12 +6596,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(15);
       Assert_dimensionUp(15);
       Assert_dimensionRight(16);
       Assert_dimensionDown(16);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(Phase_Disruptor_Fenix);
@@ -5639,18 +6646,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Tassadar)
+    TEST_METHOD(UnitTypeHero_Tassadar)
     {
       auto t = BWAPI::UnitTypes::Hero_Tassadar;
+      Assert_enum(Hero_Tassadar);
 
+      Assert_getName(Hero_Tassadar);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Psionic_Storm, BWAPI::TechTypes::Hallucination }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Protoss_Ground_Armor, BWAPI::UpgradeTypes::Protoss_Ground_Weapons }, t.upgrades());
       Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(80);
       Assert_maxShields(300);
@@ -5669,12 +6687,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(12);
       Assert_dimensionUp(10);
       Assert_dimensionRight(11);
       Assert_dimensionDown(13);
       Assert_width(24);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(24);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(96);
       Assert_sightRange(224);
       Assert_groundWeapon(Psi_Assault);
@@ -5716,18 +6737,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Mojo)
+    TEST_METHOD(UnitTypeHero_Mojo)
     {
       auto t = BWAPI::UnitTypes::Hero_Mojo;
+      Assert_enum(Hero_Mojo);
 
+      Assert_getName(Hero_Mojo);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Protoss_Air_Armor, BWAPI::UpgradeTypes::Protoss_Air_Weapons }, t.upgrades());
       Assert_armorUpgrade(Protoss_Air_Armor);
       Assert_maxHitPoints(400);
       Assert_maxShields(400);
@@ -5746,12 +6778,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(2, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(18);
       Assert_dimensionUp(16);
       Assert_dimensionRight(17);
       Assert_dimensionDown(15);
       Assert_width(36);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(Dual_Photon_Blasters_Mojo);
@@ -5793,18 +6828,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Warbringer)
+    TEST_METHOD(UnitTypeHero_Warbringer)
     {
       auto t = BWAPI::UnitTypes::Hero_Warbringer;
+      Assert_enum(Hero_Warbringer);
 
+      Assert_getName(Hero_Warbringer);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Protoss_Ground_Armor, BWAPI::UpgradeTypes::Protoss_Ground_Weapons, BWAPI::UpgradeTypes::Scarab_Damage, BWAPI::UpgradeTypes::Reaver_Capacity }, t.upgrades());
       Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(200);
       Assert_maxShields(400);
@@ -5823,12 +6869,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(256);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -5870,18 +6919,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Gantrithor)
+    TEST_METHOD(UnitTypeHero_Gantrithor)
     {
       auto t = BWAPI::UnitTypes::Hero_Gantrithor;
+      Assert_enum(Hero_Gantrithor);
 
+      Assert_getName(Hero_Gantrithor);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Protoss_Air_Armor, BWAPI::UpgradeTypes::Protoss_Air_Weapons }, t.upgrades());
       Assert_armorUpgrade(Protoss_Air_Armor);
       Assert_maxHitPoints(800);
       Assert_maxShields(500);
@@ -5900,12 +6960,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(32);
       Assert_dimensionUp(32);
       Assert_dimensionRight(31);
       Assert_dimensionDown(31);
       Assert_width(64);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(64);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(256);
       Assert_sightRange(288);
       Assert_groundWeapon(None);
@@ -5947,18 +7010,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Reaver)
+    TEST_METHOD(UnitTypeProtoss_Reaver)
     {
       auto t = BWAPI::UnitTypes::Protoss_Reaver;
+      Assert_enum(Protoss_Reaver);
 
+      Assert_getName(Protoss_Reaver);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Robotics_Facility, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Robotics_Facility, 1 }, { BWAPI::UnitTypes::Protoss_Robotics_Support_Bay, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Protoss_Ground_Armor, BWAPI::UpgradeTypes::Protoss_Ground_Weapons, BWAPI::UpgradeTypes::Scarab_Damage, BWAPI::UpgradeTypes::Reaver_Capacity }, t.upgrades());
       Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(100);
       Assert_maxShields(80);
@@ -5977,12 +7051,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(256);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -6024,18 +7101,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({ BWAPI::UnitTypes::Protoss_Scarab }, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Observer)
+    TEST_METHOD(UnitTypeProtoss_Observer)
     {
       auto t = BWAPI::UnitTypes::Protoss_Observer;
+      Assert_enum(Protoss_Observer);
 
+      Assert_getName(Protoss_Observer);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Robotics_Facility, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Robotics_Facility, 1 }, { BWAPI::UnitTypes::Protoss_Observatory, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Gravitic_Boosters, BWAPI::UpgradeTypes::Protoss_Air_Armor, BWAPI::UpgradeTypes::Sensor_Array }, t.upgrades());
       Assert_armorUpgrade(Protoss_Air_Armor);
       Assert_maxHitPoints(40);
       Assert_maxShields(20);
@@ -6054,12 +7142,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(288);
       Assert_groundWeapon(None);
@@ -6101,18 +7192,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Scarab)
+    TEST_METHOD(UnitTypeProtoss_Scarab)
     {
       auto t = BWAPI::UnitTypes::Protoss_Scarab;
+      Assert_enum(Protoss_Scarab);
 
+      Assert_getName(Protoss_Scarab);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Reaver, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Reaver, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Protoss_Ground_Armor, BWAPI::UpgradeTypes::Protoss_Ground_Weapons }, t.upgrades());
       Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(20);
       Assert_maxShields(10);
@@ -6131,12 +7233,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(2);
       Assert_dimensionUp(2);
       Assert_dimensionRight(2);
       Assert_dimensionDown(2);
       Assert_width(5);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(5);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(96);
       Assert_sightRange(160);
       Assert_groundWeapon(Scarab);
@@ -6178,18 +7283,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Danimoth)
+    TEST_METHOD(UnitTypeHero_Danimoth)
     {
       auto t = BWAPI::UnitTypes::Hero_Danimoth;
+      Assert_enum(Hero_Danimoth);
 
+      Assert_getName(Hero_Danimoth);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Recall, BWAPI::TechTypes::Stasis_Field }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Protoss_Air_Armor, BWAPI::UpgradeTypes::Protoss_Air_Weapons }, t.upgrades());
       Assert_armorUpgrade(Protoss_Air_Armor);
       Assert_maxHitPoints(600);
       Assert_maxShields(500);
@@ -6208,12 +7324,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(22);
       Assert_dimensionUp(22);
       Assert_dimensionRight(21);
       Assert_dimensionDown(21);
       Assert_width(44);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(44);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(288);
       Assert_groundWeapon(Phase_Disruptor_Cannon_Danimoth);
@@ -6255,18 +7374,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Aldaris)
+    TEST_METHOD(UnitTypeHero_Aldaris)
     {
       auto t = BWAPI::UnitTypes::Hero_Aldaris;
+      Assert_enum(Hero_Aldaris);
 
+      Assert_getName(Hero_Aldaris);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Protoss_Ground_Armor, BWAPI::UpgradeTypes::Protoss_Ground_Weapons }, t.upgrades());
       Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(80);
       Assert_maxShields(300);
@@ -6285,12 +7415,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(12);
       Assert_dimensionUp(10);
       Assert_dimensionRight(11);
       Assert_dimensionDown(13);
       Assert_width(24);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(24);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(96);
       Assert_sightRange(224);
       Assert_groundWeapon(Psi_Assault);
@@ -6332,18 +7465,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Artanis)
+    TEST_METHOD(UnitTypeHero_Artanis)
     {
       auto t = BWAPI::UnitTypes::Hero_Artanis;
+      Assert_enum(Hero_Artanis);
 
+      Assert_getName(Hero_Artanis);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Protoss_Air_Armor, BWAPI::UpgradeTypes::Protoss_Air_Weapons }, t.upgrades());
       Assert_armorUpgrade(Protoss_Air_Armor);
       Assert_maxHitPoints(250);
       Assert_maxShields(250);
@@ -6362,12 +7506,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(2, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(18);
       Assert_dimensionUp(16);
       Assert_dimensionRight(17);
       Assert_dimensionDown(15);
       Assert_width(36);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(Dual_Photon_Blasters_Artanis);
@@ -6409,18 +7556,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestCritter_Rhynadon)
+    TEST_METHOD(UnitTypeCritter_Rhynadon)
     {
       auto t = BWAPI::UnitTypes::Critter_Rhynadon;
+      Assert_enum(Critter_Rhynadon);
 
+      Assert_getName(Critter_Rhynadon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(60);
       Assert_maxShields(0);
@@ -6439,12 +7597,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(224);
       Assert_groundWeapon(None);
@@ -6486,18 +7647,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(true);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestCritter_Bengalaas)
+    TEST_METHOD(UnitTypeCritter_Bengalaas)
     {
       auto t = BWAPI::UnitTypes::Critter_Bengalaas;
+      Assert_enum(Critter_Bengalaas);
 
+      Assert_getName(Critter_Bengalaas);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(60);
       Assert_maxShields(0);
@@ -6516,12 +7688,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(224);
       Assert_groundWeapon(None);
@@ -6563,18 +7738,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(true);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Cargo_Ship)
+    TEST_METHOD(UnitTypeSpecial_Cargo_Ship)
     {
       auto t = BWAPI::UnitTypes::Special_Cargo_Ship;
+      Assert_enum(Special_Cargo_Ship);
 
+      Assert_getName(Special_Cargo_Ship);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(125);
       Assert_maxShields(0);
@@ -6593,12 +7779,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(15);
       Assert_dimensionUp(15);
       Assert_dimensionRight(16);
       Assert_dimensionDown(16);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(256);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -6640,18 +7829,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Mercenary_Gunship)
+    TEST_METHOD(UnitTypeSpecial_Mercenary_Gunship)
     {
       auto t = BWAPI::UnitTypes::Special_Mercenary_Gunship;
+      Assert_enum(Special_Mercenary_Gunship);
 
+      Assert_getName(Special_Mercenary_Gunship);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(125);
       Assert_maxShields(0);
@@ -6670,12 +7870,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(15);
       Assert_dimensionUp(15);
       Assert_dimensionRight(16);
       Assert_dimensionDown(16);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(128);
       Assert_sightRange(224);
       Assert_groundWeapon(None);
@@ -6717,18 +7920,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestCritter_Scantid)
+    TEST_METHOD(UnitTypeCritter_Scantid)
     {
       auto t = BWAPI::UnitTypes::Critter_Scantid;
+      Assert_enum(Critter_Scantid);
 
+      Assert_getName(Critter_Scantid);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(60);
       Assert_maxShields(0);
@@ -6747,12 +7961,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(224);
       Assert_groundWeapon(None);
@@ -6794,18 +8011,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(true);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestCritter_Kakaru)
+    TEST_METHOD(UnitTypeCritter_Kakaru)
     {
       auto t = BWAPI::UnitTypes::Critter_Kakaru;
+      Assert_enum(Critter_Kakaru);
 
+      Assert_getName(Critter_Kakaru);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(60);
       Assert_maxShields(0);
@@ -6824,12 +8052,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(224);
       Assert_groundWeapon(None);
@@ -6871,18 +8102,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(true);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestCritter_Ragnasaur)
+    TEST_METHOD(UnitTypeCritter_Ragnasaur)
     {
       auto t = BWAPI::UnitTypes::Critter_Ragnasaur;
+      Assert_enum(Critter_Ragnasaur);
 
+      Assert_getName(Critter_Ragnasaur);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(60);
       Assert_maxShields(0);
@@ -6901,12 +8143,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(224);
       Assert_groundWeapon(None);
@@ -6948,18 +8193,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(true);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestCritter_Ursadon)
+    TEST_METHOD(UnitTypeCritter_Ursadon)
     {
       auto t = BWAPI::UnitTypes::Critter_Ursadon;
+      Assert_enum(Critter_Ursadon);
 
+      Assert_getName(Critter_Ursadon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(60);
       Assert_maxShields(0);
@@ -6978,12 +8234,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(224);
       Assert_groundWeapon(None);
@@ -7025,18 +8284,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(true);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Lurker_Egg)
+    TEST_METHOD(UnitTypeZerg_Lurker_Egg)
     {
       auto t = BWAPI::UnitTypes::Zerg_Lurker_Egg;
+      Assert_enum(Zerg_Lurker_Egg);
 
+      Assert_getName(Zerg_Lurker_Egg);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Hydralisk, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Hydralisk, 1 } }, t.requiredUnits());
       Assert_requiredTech(Lurker_Aspect);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Carapace }, t.upgrades());
       Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(200);
       Assert_maxShields(0);
@@ -7055,12 +8325,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(128);
       Assert_groundWeapon(None);
@@ -7102,18 +8375,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Raszagal)
+    TEST_METHOD(UnitTypeHero_Raszagal)
     {
       auto t = BWAPI::UnitTypes::Hero_Raszagal;
+      Assert_enum(Hero_Raszagal);
 
+      Assert_getName(Hero_Raszagal);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Disruption_Web }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields, BWAPI::UpgradeTypes::Protoss_Air_Armor, BWAPI::UpgradeTypes::Protoss_Air_Weapons }, t.upgrades());
       Assert_armorUpgrade(Protoss_Air_Armor);
       Assert_maxHitPoints(100);
       Assert_maxShields(60);
@@ -7132,12 +8416,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(18);
       Assert_dimensionUp(16);
       Assert_dimensionRight(17);
       Assert_dimensionDown(15);
       Assert_width(36);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(288);
       Assert_sightRange(288);
       Assert_groundWeapon(None);
@@ -7179,18 +8466,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Samir_Duran)
+    TEST_METHOD(UnitTypeHero_Samir_Duran)
     {
       auto t = BWAPI::UnitTypes::Hero_Samir_Duran;
+      Assert_enum(Hero_Samir_Duran);
 
+      Assert_getName(Hero_Samir_Duran);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(Personnel_Cloaking);
+      AssertSetEquals({ BWAPI::TechTypes::Lockdown, BWAPI::TechTypes::Personnel_Cloaking }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Infantry_Armor, BWAPI::UpgradeTypes::Terran_Infantry_Weapons }, t.upgrades());
       Assert_armorUpgrade(Terran_Infantry_Armor);
       Assert_maxHitPoints(200);
       Assert_maxShields(0);
@@ -7209,12 +8507,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(7);
       Assert_dimensionUp(10);
       Assert_dimensionRight(7);
       Assert_dimensionDown(11);
       Assert_width(15);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(22);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(C_10_Canister_Rifle_Samir_Duran);
@@ -7256,18 +8557,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Alexei_Stukov)
+    TEST_METHOD(UnitTypeHero_Alexei_Stukov)
     {
       auto t = BWAPI::UnitTypes::Hero_Alexei_Stukov;
+      Assert_enum(Hero_Alexei_Stukov);
 
+      Assert_getName(Hero_Alexei_Stukov);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(Personnel_Cloaking);
+      AssertSetEquals({ BWAPI::TechTypes::Lockdown, BWAPI::TechTypes::Personnel_Cloaking }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Infantry_Armor, BWAPI::UpgradeTypes::Terran_Infantry_Weapons }, t.upgrades());
       Assert_armorUpgrade(Terran_Infantry_Armor);
       Assert_maxHitPoints(250);
       Assert_maxShields(0);
@@ -7286,12 +8598,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(7);
       Assert_dimensionUp(10);
       Assert_dimensionRight(7);
       Assert_dimensionDown(11);
       Assert_width(15);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(22);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(352);
       Assert_groundWeapon(C_10_Canister_Rifle_Alexei_Stukov);
@@ -7333,18 +8648,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Map_Revealer)
+    TEST_METHOD(UnitTypeSpecial_Map_Revealer)
     {
       auto t = BWAPI::UnitTypes::Special_Map_Revealer;
+      Assert_enum(Special_Map_Revealer);
 
+      Assert_getName(Special_Map_Revealer);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(1);
       Assert_maxShields(0);
@@ -7363,12 +8689,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(13);
       Assert_dimensionUp(13);
       Assert_dimensionRight(13);
       Assert_dimensionDown(17);
       Assert_width(27);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(31);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -7410,18 +8739,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Gerard_DuGalle)
+    TEST_METHOD(UnitTypeHero_Gerard_DuGalle)
     {
       auto t = BWAPI::UnitTypes::Hero_Gerard_DuGalle;
+      Assert_enum(Hero_Gerard_DuGalle);
 
+      Assert_getName(Hero_Gerard_DuGalle);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Yamato_Gun }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Ship_Plating, BWAPI::UpgradeTypes::Terran_Ship_Weapons }, t.upgrades());
       Assert_armorUpgrade(Terran_Ship_Plating);
       Assert_maxHitPoints(700);
       Assert_maxShields(0);
@@ -7440,12 +8780,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(37);
       Assert_dimensionUp(29);
       Assert_dimensionRight(37);
       Assert_dimensionDown(29);
       Assert_width(75);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(59);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(352);
       Assert_groundWeapon(ATS_Laser_Battery_Hero);
@@ -7487,18 +8830,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Lurker)
+    TEST_METHOD(UnitTypeZerg_Lurker)
     {
       auto t = BWAPI::UnitTypes::Zerg_Lurker;
+      Assert_enum(Zerg_Lurker);
 
+      Assert_getName(Zerg_Lurker);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Hydralisk, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Hydralisk, 1 } }, t.requiredUnits());
       Assert_requiredTech(Lurker_Aspect);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Burrowing }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Carapace, BWAPI::UpgradeTypes::Zerg_Missile_Attacks }, t.upgrades());
       Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(125);
       Assert_maxShields(0);
@@ -7517,12 +8871,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(15);
       Assert_dimensionUp(15);
       Assert_dimensionRight(16);
       Assert_dimensionDown(16);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(192);
       Assert_sightRange(256);
       Assert_groundWeapon(Subterranean_Spines);
@@ -7564,18 +8921,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestHero_Infested_Duran)
+    TEST_METHOD(UnitTypeHero_Infested_Duran)
     {
       auto t = BWAPI::UnitTypes::Hero_Infested_Duran;
+      Assert_enum(Hero_Infested_Duran);
 
+      Assert_getName(Hero_Infested_Duran);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(Personnel_Cloaking);
+      AssertSetEquals({ BWAPI::TechTypes::Lockdown, BWAPI::TechTypes::Personnel_Cloaking, BWAPI::TechTypes::Consume }, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Carapace, BWAPI::UpgradeTypes::Terran_Infantry_Weapons }, t.upgrades());
       Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(300);
       Assert_maxShields(0);
@@ -7594,12 +8962,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(7);
       Assert_dimensionUp(10);
       Assert_dimensionRight(7);
       Assert_dimensionDown(11);
       Assert_width(15);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(22);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(352);
       Assert_groundWeapon(C_10_Canister_Rifle_Infested_Duran);
@@ -7641,18 +9012,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpell_Disruption_Web)
+    TEST_METHOD(UnitTypeSpell_Disruption_Web)
     {
       auto t = BWAPI::UnitTypes::Spell_Disruption_Web;
+      Assert_enum(Spell_Disruption_Web);
 
+      Assert_getName(Spell_Disruption_Web);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
@@ -7671,12 +9053,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(60);
       Assert_dimensionUp(40);
       Assert_dimensionRight(59);
       Assert_dimensionDown(39);
       Assert_width(120);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(80);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -7718,18 +9103,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(true);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Command_Center)
+    TEST_METHOD(UnitTypeTerran_Command_Center)
     {
       auto t = BWAPI::UnitTypes::Terran_Command_Center;
+      Assert_enum(Terran_Command_Center);
 
+      Assert_getName(Terran_Command_Center);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_SCV, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_SCV, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(1500);
       Assert_maxShields(0);
@@ -7748,12 +9144,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(58);
       Assert_dimensionUp(41);
       Assert_dimensionRight(58);
       Assert_dimensionDown(41);
       Assert_width(117);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(83);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -7795,18 +9194,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(true);
+      AssertSetEquals({ BWAPI::UnitTypes::Terran_SCV, BWAPI::UnitTypes::Terran_Comsat_Station, BWAPI::UnitTypes::Terran_Nuclear_Silo }, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Comsat_Station)
+    TEST_METHOD(UnitTypeTerran_Comsat_Station)
     {
       auto t = BWAPI::UnitTypes::Terran_Comsat_Station;
+      Assert_enum(Terran_Comsat_Station);
 
+      Assert_getName(Terran_Comsat_Station);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_Command_Center, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_Command_Center, 1 }, { BWAPI::UnitTypes::Terran_Academy, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({ BWAPI::TechTypes::Scanner_Sweep }, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(500);
       Assert_maxShields(0);
@@ -7825,12 +9235,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(37);
       Assert_dimensionUp(16);
       Assert_dimensionRight(31);
       Assert_dimensionDown(25);
       Assert_width(69);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(42);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -7872,18 +9285,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Nuclear_Silo)
+    TEST_METHOD(UnitTypeTerran_Nuclear_Silo)
     {
       auto t = BWAPI::UnitTypes::Terran_Nuclear_Silo;
+      Assert_enum(Terran_Nuclear_Silo);
 
+      Assert_getName(Terran_Nuclear_Silo);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_Command_Center, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_Command_Center, 1 }, { BWAPI::UnitTypes::Terran_Science_Facility, 1 }, { BWAPI::UnitTypes::Terran_Covert_Ops, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(600);
       Assert_maxShields(0);
@@ -7902,12 +9326,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(37);
       Assert_dimensionUp(16);
       Assert_dimensionRight(31);
       Assert_dimensionDown(25);
       Assert_width(69);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(42);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -7949,18 +9376,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({ BWAPI::UnitTypes::Terran_Nuclear_Missile }, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Supply_Depot)
+    TEST_METHOD(UnitTypeTerran_Supply_Depot)
     {
       auto t = BWAPI::UnitTypes::Terran_Supply_Depot;
+      Assert_enum(Terran_Supply_Depot);
 
+      Assert_getName(Terran_Supply_Depot);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_SCV, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_SCV, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(500);
       Assert_maxShields(0);
@@ -7979,12 +9417,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(38);
       Assert_dimensionUp(22);
       Assert_dimensionRight(38);
       Assert_dimensionDown(26);
       Assert_width(77);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(49);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -8026,18 +9467,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Refinery)
+    TEST_METHOD(UnitTypeTerran_Refinery)
     {
       auto t = BWAPI::UnitTypes::Terran_Refinery;
+      Assert_enum(Terran_Refinery);
 
+      Assert_getName(Terran_Refinery);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_SCV, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_SCV, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(750);
       Assert_maxShields(0);
@@ -8056,12 +9508,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(4);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(4, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(56);
       Assert_dimensionUp(32);
       Assert_dimensionRight(56);
       Assert_dimensionDown(31);
       Assert_width(113);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(64);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -8103,18 +9558,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Barracks)
+    TEST_METHOD(UnitTypeTerran_Barracks)
     {
       auto t = BWAPI::UnitTypes::Terran_Barracks;
+      Assert_enum(Terran_Barracks);
 
+      Assert_getName(Terran_Barracks);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_SCV, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_SCV, 1 }, { BWAPI::UnitTypes::Terran_Command_Center, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(1000);
       Assert_maxShields(0);
@@ -8133,12 +9599,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(48);
       Assert_dimensionUp(40);
       Assert_dimensionRight(56);
       Assert_dimensionDown(32);
       Assert_width(105);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(73);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -8180,18 +9649,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({ BWAPI::UnitTypes::Terran_Marine, BWAPI::UnitTypes::Terran_Firebat, BWAPI::UnitTypes::Terran_Medic, BWAPI::UnitTypes::Terran_Ghost }, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Academy)
+    TEST_METHOD(UnitTypeTerran_Academy)
     {
       auto t = BWAPI::UnitTypes::Terran_Academy;
+      Assert_enum(Terran_Academy);
 
+      Assert_getName(Terran_Academy);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_SCV, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_SCV, 1 }, { BWAPI::UnitTypes::Terran_Barracks, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(600);
       Assert_maxShields(0);
@@ -8210,12 +9690,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(40);
       Assert_dimensionUp(32);
       Assert_dimensionRight(44);
       Assert_dimensionDown(24);
       Assert_width(85);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(57);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -8257,18 +9740,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({ BWAPI::TechTypes::Stim_Packs, BWAPI::TechTypes::Restoration, BWAPI::TechTypes::Optical_Flare }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::U_238_Shells, BWAPI::UpgradeTypes::Caduceus_Reactor }, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Factory)
+    TEST_METHOD(UnitTypeTerran_Factory)
     {
       auto t = BWAPI::UnitTypes::Terran_Factory;
+      Assert_enum(Terran_Factory);
 
+      Assert_getName(Terran_Factory);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_SCV, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_SCV, 1 }, { BWAPI::UnitTypes::Terran_Barracks, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(1250);
       Assert_maxShields(0);
@@ -8287,12 +9781,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(56);
       Assert_dimensionUp(40);
       Assert_dimensionRight(56);
       Assert_dimensionDown(40);
       Assert_width(113);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(81);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -8334,18 +9831,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(true);
+      AssertSetEquals({ BWAPI::UnitTypes::Terran_Vulture, BWAPI::UnitTypes::Terran_Siege_Tank_Tank_Mode, BWAPI::UnitTypes::Terran_Goliath, BWAPI::UnitTypes::Terran_Machine_Shop }, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Starport)
+    TEST_METHOD(UnitTypeTerran_Starport)
     {
       auto t = BWAPI::UnitTypes::Terran_Starport;
+      Assert_enum(Terran_Starport);
 
+      Assert_getName(Terran_Starport);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_SCV, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_SCV, 1 }, { BWAPI::UnitTypes::Terran_Factory, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(1300);
       Assert_maxShields(0);
@@ -8364,12 +9872,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(48);
       Assert_dimensionUp(40);
       Assert_dimensionRight(48);
       Assert_dimensionDown(38);
       Assert_width(97);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(79);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -8411,18 +9922,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(true);
+      AssertSetEquals({ BWAPI::UnitTypes::Terran_Wraith, BWAPI::UnitTypes::Terran_Dropship, BWAPI::UnitTypes::Terran_Control_Tower, BWAPI::UnitTypes::Terran_Science_Vessel, BWAPI::UnitTypes::Terran_Battlecruiser, BWAPI::UnitTypes::Terran_Valkyrie }, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Control_Tower)
+    TEST_METHOD(UnitTypeTerran_Control_Tower)
     {
       auto t = BWAPI::UnitTypes::Terran_Control_Tower;
+      Assert_enum(Terran_Control_Tower);
 
+      Assert_getName(Terran_Control_Tower);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_Starport, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_Starport, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(500);
       Assert_maxShields(0);
@@ -8441,12 +9963,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(47);
       Assert_dimensionUp(24);
       Assert_dimensionRight(28);
       Assert_dimensionDown(22);
       Assert_width(76);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(47);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -8488,18 +10013,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({ BWAPI::TechTypes::Cloaking_Field }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Apollo_Reactor }, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Science_Facility)
+    TEST_METHOD(UnitTypeTerran_Science_Facility)
     {
       auto t = BWAPI::UnitTypes::Terran_Science_Facility;
+      Assert_enum(Terran_Science_Facility);
 
+      Assert_getName(Terran_Science_Facility);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_SCV, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_SCV, 1 }, { BWAPI::UnitTypes::Terran_Starport, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(850);
       Assert_maxShields(0);
@@ -8518,12 +10054,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(48);
       Assert_dimensionUp(38);
       Assert_dimensionRight(48);
       Assert_dimensionDown(38);
       Assert_width(97);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(77);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -8565,18 +10104,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(true);
+      AssertSetEquals({ BWAPI::UnitTypes::Terran_Covert_Ops, BWAPI::UnitTypes::Terran_Physics_Lab }, t.buildsWhat());
+      AssertSetEquals({ BWAPI::TechTypes::EMP_Shockwave, BWAPI::TechTypes::Irradiate }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Titan_Reactor }, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Covert_Ops)
+    TEST_METHOD(UnitTypeTerran_Covert_Ops)
     {
       auto t = BWAPI::UnitTypes::Terran_Covert_Ops;
+      Assert_enum(Terran_Covert_Ops);
 
+      Assert_getName(Terran_Covert_Ops);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_Science_Facility, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_Science_Facility, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(750);
       Assert_maxShields(0);
@@ -8595,12 +10145,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(47);
       Assert_dimensionUp(24);
       Assert_dimensionRight(28);
       Assert_dimensionDown(22);
       Assert_width(76);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(47);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -8642,18 +10195,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({ BWAPI::TechTypes::Personnel_Cloaking, BWAPI::TechTypes::Lockdown }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Ocular_Implants, BWAPI::UpgradeTypes::Moebius_Reactor }, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Physics_Lab)
+    TEST_METHOD(UnitTypeTerran_Physics_Lab)
     {
       auto t = BWAPI::UnitTypes::Terran_Physics_Lab;
+      Assert_enum(Terran_Physics_Lab);
 
+      Assert_getName(Terran_Physics_Lab);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_Science_Facility, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_Science_Facility, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(600);
       Assert_maxShields(0);
@@ -8672,12 +10236,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(47);
       Assert_dimensionUp(24);
       Assert_dimensionRight(28);
       Assert_dimensionDown(22);
       Assert_width(76);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(47);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -8719,18 +10286,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({ BWAPI::TechTypes::Yamato_Gun }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Colossus_Reactor }, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Machine_Shop)
+    TEST_METHOD(UnitTypeTerran_Machine_Shop)
     {
       auto t = BWAPI::UnitTypes::Terran_Machine_Shop;
+      Assert_enum(Terran_Machine_Shop);
 
+      Assert_getName(Terran_Machine_Shop);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_Factory, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_Factory, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(750);
       Assert_maxShields(0);
@@ -8749,12 +10327,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(39);
       Assert_dimensionUp(24);
       Assert_dimensionRight(31);
       Assert_dimensionDown(24);
       Assert_width(71);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(49);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -8796,18 +10377,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({ BWAPI::TechTypes::Tank_Siege_Mode, BWAPI::TechTypes::Spider_Mines }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Ion_Thrusters, BWAPI::UpgradeTypes::Charon_Boosters }, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Engineering_Bay)
+    TEST_METHOD(UnitTypeTerran_Engineering_Bay)
     {
       auto t = BWAPI::UnitTypes::Terran_Engineering_Bay;
+      Assert_enum(Terran_Engineering_Bay);
 
+      Assert_getName(Terran_Engineering_Bay);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_SCV, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_SCV, 1 }, { BWAPI::UnitTypes::Terran_Command_Center, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(850);
       Assert_maxShields(0);
@@ -8826,12 +10418,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(48);
       Assert_dimensionUp(32);
       Assert_dimensionRight(48);
       Assert_dimensionDown(28);
       Assert_width(97);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(61);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -8873,18 +10468,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Infantry_Armor, BWAPI::UpgradeTypes::Terran_Infantry_Weapons }, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Armory)
+    TEST_METHOD(UnitTypeTerran_Armory)
     {
       auto t = BWAPI::UnitTypes::Terran_Armory;
+      Assert_enum(Terran_Armory);
 
+      Assert_getName(Terran_Armory);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_SCV, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_SCV, 1 }, { BWAPI::UnitTypes::Terran_Factory, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(750);
       Assert_maxShields(0);
@@ -8903,12 +10509,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(48);
       Assert_dimensionUp(32);
       Assert_dimensionRight(47);
       Assert_dimensionDown(22);
       Assert_width(96);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(55);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -8950,18 +10559,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Vehicle_Plating, BWAPI::UpgradeTypes::Terran_Ship_Weapons, BWAPI::UpgradeTypes::Terran_Vehicle_Weapons, BWAPI::UpgradeTypes::Terran_Ship_Plating }, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Missile_Turret)
+    TEST_METHOD(UnitTypeTerran_Missile_Turret)
     {
       auto t = BWAPI::UnitTypes::Terran_Missile_Turret;
+      Assert_enum(Terran_Missile_Turret);
 
+      Assert_getName(Terran_Missile_Turret);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_SCV, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_SCV, 1 }, { BWAPI::UnitTypes::Terran_Engineering_Bay, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(200);
       Assert_maxShields(0);
@@ -8980,12 +10600,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(32);
       Assert_dimensionRight(16);
       Assert_dimensionDown(16);
       Assert_width(33);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(49);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(352);
       Assert_groundWeapon(None);
@@ -9027,18 +10650,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestTerran_Bunker)
+    TEST_METHOD(UnitTypeTerran_Bunker)
     {
       auto t = BWAPI::UnitTypes::Terran_Bunker;
+      Assert_enum(Terran_Bunker);
 
+      Assert_getName(Terran_Bunker);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(Terran_SCV, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Terran_SCV, 1 }, { BWAPI::UnitTypes::Terran_Barracks, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(350);
       Assert_maxShields(0);
@@ -9057,12 +10691,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(32);
       Assert_dimensionUp(24);
       Assert_dimensionRight(32);
       Assert_dimensionDown(16);
       Assert_width(65);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(41);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -9104,18 +10741,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Crashed_Norad_II)
+    TEST_METHOD(UnitTypeSpecial_Crashed_Norad_II)
     {
       auto t = BWAPI::UnitTypes::Special_Crashed_Norad_II;
+      Assert_enum(Special_Crashed_Norad_II);
 
+      Assert_getName(Special_Crashed_Norad_II);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(700);
       Assert_maxShields(0);
@@ -9134,12 +10782,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(48);
       Assert_dimensionUp(32);
       Assert_dimensionRight(47);
       Assert_dimensionDown(31);
       Assert_width(96);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(64);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -9181,18 +10832,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(true);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Ion_Cannon)
+    TEST_METHOD(UnitTypeSpecial_Ion_Cannon)
     {
       auto t = BWAPI::UnitTypes::Special_Ion_Cannon;
+      Assert_enum(Special_Ion_Cannon);
 
+      Assert_getName(Special_Ion_Cannon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(2000);
       Assert_maxShields(0);
@@ -9211,12 +10873,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(48);
       Assert_dimensionUp(32);
       Assert_dimensionRight(47);
       Assert_dimensionDown(31);
       Assert_width(96);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(64);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -9258,18 +10923,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(true);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestPowerup_Uraj_Crystal)
+    TEST_METHOD(UnitTypePowerup_Uraj_Crystal)
     {
       auto t = BWAPI::UnitTypes::Powerup_Uraj_Crystal;
+      Assert_enum(Powerup_Uraj_Crystal);
 
+      Assert_getName(Powerup_Uraj_Crystal);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(10000);
       Assert_maxShields(0);
@@ -9288,12 +10964,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(160);
       Assert_groundWeapon(None);
@@ -9335,18 +11014,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestPowerup_Khalis_Crystal)
+    TEST_METHOD(UnitTypePowerup_Khalis_Crystal)
     {
       auto t = BWAPI::UnitTypes::Powerup_Khalis_Crystal;
+      Assert_enum(Powerup_Khalis_Crystal);
 
+      Assert_getName(Powerup_Khalis_Crystal);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(10000);
       Assert_maxShields(0);
@@ -9365,12 +11055,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(160);
       Assert_groundWeapon(None);
@@ -9412,18 +11105,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Infested_Command_Center)
+    TEST_METHOD(UnitTypeZerg_Infested_Command_Center)
     {
       auto t = BWAPI::UnitTypes::Zerg_Infested_Command_Center;
+      Assert_enum(Zerg_Infested_Command_Center);
 
+      Assert_getName(Zerg_Infested_Command_Center);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(1500);
       Assert_maxShields(0);
@@ -9442,12 +11146,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(58);
       Assert_dimensionUp(41);
       Assert_dimensionRight(58);
       Assert_dimensionDown(41);
       Assert_width(117);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(83);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -9489,18 +11196,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({ BWAPI::UnitTypes::Zerg_Infested_Terran }, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Hatchery)
+    TEST_METHOD(UnitTypeZerg_Hatchery)
     {
       auto t = BWAPI::UnitTypes::Zerg_Hatchery;
+      Assert_enum(Zerg_Hatchery);
 
+      Assert_getName(Zerg_Hatchery);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Drone, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Drone, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(1250);
       Assert_maxShields(0);
@@ -9519,12 +11237,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(49);
       Assert_dimensionUp(32);
       Assert_dimensionRight(49);
       Assert_dimensionDown(32);
       Assert_width(99);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(65);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(288);
       Assert_groundWeapon(None);
@@ -9566,18 +11287,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(true);
       Assert_producesLarva(true);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({ BWAPI::UnitTypes::Zerg_Lair }, t.buildsWhat());
+      AssertSetEquals({ BWAPI::TechTypes::Burrowing }, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Lair)
+    TEST_METHOD(UnitTypeZerg_Lair)
     {
       auto t = BWAPI::UnitTypes::Zerg_Lair;
+      Assert_enum(Zerg_Lair);
 
+      Assert_getName(Zerg_Lair);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Hatchery, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Hatchery, 1 }, { BWAPI::UnitTypes::Zerg_Spawning_Pool, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(1800);
       Assert_maxShields(0);
@@ -9596,12 +11328,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(49);
       Assert_dimensionUp(32);
       Assert_dimensionRight(49);
       Assert_dimensionDown(32);
       Assert_width(99);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(65);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -9643,18 +11378,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(true);
       Assert_producesLarva(true);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({ BWAPI::UnitTypes::Zerg_Hive }, t.buildsWhat());
+      AssertSetEquals({ BWAPI::TechTypes::Burrowing }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Ventral_Sacs, BWAPI::UpgradeTypes::Antennae, BWAPI::UpgradeTypes::Pneumatized_Carapace }, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Hive)
+    TEST_METHOD(UnitTypeZerg_Hive)
     {
       auto t = BWAPI::UnitTypes::Zerg_Hive;
+      Assert_enum(Zerg_Hive);
 
+      Assert_getName(Zerg_Hive);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Lair, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Lair, 1 }, { BWAPI::UnitTypes::Zerg_Queens_Nest, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(2500);
       Assert_maxShields(0);
@@ -9673,12 +11419,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(49);
       Assert_dimensionUp(32);
       Assert_dimensionRight(49);
       Assert_dimensionDown(32);
       Assert_width(99);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(65);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(352);
       Assert_groundWeapon(None);
@@ -9720,18 +11469,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(true);
       Assert_producesLarva(true);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({ BWAPI::TechTypes::Burrowing }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Ventral_Sacs, BWAPI::UpgradeTypes::Antennae, BWAPI::UpgradeTypes::Pneumatized_Carapace }, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Nydus_Canal)
+    TEST_METHOD(UnitTypeZerg_Nydus_Canal)
     {
       auto t = BWAPI::UnitTypes::Zerg_Nydus_Canal;
+      Assert_enum(Zerg_Nydus_Canal);
 
+      Assert_getName(Zerg_Nydus_Canal);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Drone, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Drone, 1 }, { BWAPI::UnitTypes::Zerg_Hive, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(250);
       Assert_maxShields(0);
@@ -9750,12 +11510,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(32);
       Assert_dimensionUp(32);
       Assert_dimensionRight(31);
       Assert_dimensionDown(31);
       Assert_width(64);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(64);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -9797,18 +11560,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Hydralisk_Den)
+    TEST_METHOD(UnitTypeZerg_Hydralisk_Den)
     {
       auto t = BWAPI::UnitTypes::Zerg_Hydralisk_Den;
+      Assert_enum(Zerg_Hydralisk_Den);
 
+      Assert_getName(Zerg_Hydralisk_Den);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Drone, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Drone, 1 }, { BWAPI::UnitTypes::Zerg_Spawning_Pool, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(850);
       Assert_maxShields(0);
@@ -9827,12 +11601,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(40);
       Assert_dimensionUp(32);
       Assert_dimensionRight(40);
       Assert_dimensionDown(24);
       Assert_width(81);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(57);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -9874,18 +11651,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({ BWAPI::TechTypes::Lurker_Aspect }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Muscular_Augments, BWAPI::UpgradeTypes::Grooved_Spines }, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Defiler_Mound)
+    TEST_METHOD(UnitTypeZerg_Defiler_Mound)
     {
       auto t = BWAPI::UnitTypes::Zerg_Defiler_Mound;
+      Assert_enum(Zerg_Defiler_Mound);
 
+      Assert_getName(Zerg_Defiler_Mound);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Drone, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Drone, 1 }, { BWAPI::UnitTypes::Zerg_Hive, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(850);
       Assert_maxShields(0);
@@ -9904,12 +11692,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(4);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(4, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(48);
       Assert_dimensionUp(32);
       Assert_dimensionRight(48);
       Assert_dimensionDown(4);
       Assert_width(97);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(37);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -9951,18 +11742,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({ BWAPI::TechTypes::Consume, BWAPI::TechTypes::Plague }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Metasynaptic_Node }, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Greater_Spire)
+    TEST_METHOD(UnitTypeZerg_Greater_Spire)
     {
       auto t = BWAPI::UnitTypes::Zerg_Greater_Spire;
+      Assert_enum(Zerg_Greater_Spire);
 
+      Assert_getName(Zerg_Greater_Spire);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Spire, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Hive, 1 }, { BWAPI::UnitTypes::Zerg_Spire, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(1000);
       Assert_maxShields(0);
@@ -9981,12 +11783,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(28);
       Assert_dimensionUp(32);
       Assert_dimensionRight(28);
       Assert_dimensionDown(24);
       Assert_width(57);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(57);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -10028,18 +11833,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Flyer_Attacks, BWAPI::UpgradeTypes::Zerg_Flyer_Carapace }, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Queens_Nest)
+    TEST_METHOD(UnitTypeZerg_Queens_Nest)
     {
       auto t = BWAPI::UnitTypes::Zerg_Queens_Nest;
+      Assert_enum(Zerg_Queens_Nest);
 
+      Assert_getName(Zerg_Queens_Nest);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Drone, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Drone, 1 }, { BWAPI::UnitTypes::Zerg_Lair, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(850);
       Assert_maxShields(0);
@@ -10058,12 +11874,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(38);
       Assert_dimensionUp(28);
       Assert_dimensionRight(32);
       Assert_dimensionDown(28);
       Assert_width(71);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(57);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -10105,18 +11924,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({ BWAPI::TechTypes::Ensnare, BWAPI::TechTypes::Spawn_Broodlings }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Gamete_Meiosis }, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Evolution_Chamber)
+    TEST_METHOD(UnitTypeZerg_Evolution_Chamber)
     {
       auto t = BWAPI::UnitTypes::Zerg_Evolution_Chamber;
+      Assert_enum(Zerg_Evolution_Chamber);
 
+      Assert_getName(Zerg_Evolution_Chamber);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Drone, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Drone, 1 }, { BWAPI::UnitTypes::Zerg_Hatchery, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(750);
       Assert_maxShields(0);
@@ -10135,12 +11965,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(44);
       Assert_dimensionUp(32);
       Assert_dimensionRight(32);
       Assert_dimensionDown(20);
       Assert_width(77);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(53);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -10182,18 +12015,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Melee_Attacks, BWAPI::UpgradeTypes::Zerg_Missile_Attacks, BWAPI::UpgradeTypes::Zerg_Carapace }, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Ultralisk_Cavern)
+    TEST_METHOD(UnitTypeZerg_Ultralisk_Cavern)
     {
       auto t = BWAPI::UnitTypes::Zerg_Ultralisk_Cavern;
+      Assert_enum(Zerg_Ultralisk_Cavern);
 
+      Assert_getName(Zerg_Ultralisk_Cavern);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Drone, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Drone, 1 }, { BWAPI::UnitTypes::Zerg_Hive, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(600);
       Assert_maxShields(0);
@@ -10212,12 +12056,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(40);
       Assert_dimensionUp(32);
       Assert_dimensionRight(32);
       Assert_dimensionDown(31);
       Assert_width(73);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(64);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -10259,18 +12106,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Anabolic_Synthesis, BWAPI::UpgradeTypes::Chitinous_Plating }, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Spire)
+    TEST_METHOD(UnitTypeZerg_Spire)
     {
       auto t = BWAPI::UnitTypes::Zerg_Spire;
+      Assert_enum(Zerg_Spire);
 
+      Assert_getName(Zerg_Spire);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Drone, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Drone, 1 }, { BWAPI::UnitTypes::Zerg_Lair, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(600);
       Assert_maxShields(0);
@@ -10289,12 +12147,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(28);
       Assert_dimensionUp(32);
       Assert_dimensionRight(28);
       Assert_dimensionDown(24);
       Assert_width(57);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(57);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -10336,18 +12197,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({ BWAPI::UnitTypes::Zerg_Greater_Spire }, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Flyer_Attacks, BWAPI::UpgradeTypes::Zerg_Flyer_Carapace }, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Spawning_Pool)
+    TEST_METHOD(UnitTypeZerg_Spawning_Pool)
     {
       auto t = BWAPI::UnitTypes::Zerg_Spawning_Pool;
+      Assert_enum(Zerg_Spawning_Pool);
 
+      Assert_getName(Zerg_Spawning_Pool);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Drone, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Drone, 1 }, { BWAPI::UnitTypes::Zerg_Hatchery, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(750);
       Assert_maxShields(0);
@@ -10366,12 +12238,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(36);
       Assert_dimensionUp(28);
       Assert_dimensionRight(40);
       Assert_dimensionDown(18);
       Assert_width(77);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(47);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -10413,18 +12288,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Metabolic_Boost, BWAPI::UpgradeTypes::Adrenal_Glands }, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Creep_Colony)
+    TEST_METHOD(UnitTypeZerg_Creep_Colony)
     {
       auto t = BWAPI::UnitTypes::Zerg_Creep_Colony;
+      Assert_enum(Zerg_Creep_Colony);
 
+      Assert_getName(Zerg_Creep_Colony);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Drone, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Drone, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(400);
       Assert_maxShields(0);
@@ -10443,12 +12329,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(24);
       Assert_dimensionUp(24);
       Assert_dimensionRight(23);
       Assert_dimensionDown(23);
       Assert_width(48);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(48);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -10490,18 +12379,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(true);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({ BWAPI::UnitTypes::Zerg_Sunken_Colony, BWAPI::UnitTypes::Zerg_Spore_Colony }, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Spore_Colony)
+    TEST_METHOD(UnitTypeZerg_Spore_Colony)
     {
       auto t = BWAPI::UnitTypes::Zerg_Spore_Colony;
+      Assert_enum(Zerg_Spore_Colony);
 
+      Assert_getName(Zerg_Spore_Colony);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Creep_Colony, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Evolution_Chamber, 1 }, { BWAPI::UnitTypes::Zerg_Creep_Colony, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(400);
       Assert_maxShields(0);
@@ -10520,12 +12420,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(24);
       Assert_dimensionUp(24);
       Assert_dimensionRight(23);
       Assert_dimensionDown(23);
       Assert_width(48);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(48);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -10567,18 +12470,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(true);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Sunken_Colony)
+    TEST_METHOD(UnitTypeZerg_Sunken_Colony)
     {
       auto t = BWAPI::UnitTypes::Zerg_Sunken_Colony;
+      Assert_enum(Zerg_Sunken_Colony);
 
+      Assert_getName(Zerg_Sunken_Colony);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Creep_Colony, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Spawning_Pool, 1 }, { BWAPI::UnitTypes::Zerg_Creep_Colony, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(300);
       Assert_maxShields(0);
@@ -10597,12 +12511,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(24);
       Assert_dimensionUp(24);
       Assert_dimensionRight(23);
       Assert_dimensionDown(23);
       Assert_width(48);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(48);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(Subterranean_Tentacle);
@@ -10644,18 +12561,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(true);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Overmind_With_Shell)
+    TEST_METHOD(UnitTypeSpecial_Overmind_With_Shell)
     {
       auto t = BWAPI::UnitTypes::Special_Overmind_With_Shell;
+      Assert_enum(Special_Overmind_With_Shell);
 
+      Assert_getName(Special_Overmind_With_Shell);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(5000);
       Assert_maxShields(0);
@@ -10674,12 +12602,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(5);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(5, 3));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(80);
       Assert_dimensionUp(32);
       Assert_dimensionRight(79);
       Assert_dimensionDown(40);
       Assert_width(160);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(73);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -10721,18 +12652,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(true);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Overmind)
+    TEST_METHOD(UnitTypeSpecial_Overmind)
     {
       auto t = BWAPI::UnitTypes::Special_Overmind;
+      Assert_enum(Special_Overmind);
 
+      Assert_getName(Special_Overmind);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(2500);
       Assert_maxShields(0);
@@ -10751,12 +12693,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(5);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(5, 3));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(80);
       Assert_dimensionUp(32);
       Assert_dimensionRight(79);
       Assert_dimensionDown(40);
       Assert_width(160);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(73);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -10798,18 +12743,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(true);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestZerg_Extractor)
+    TEST_METHOD(UnitTypeZerg_Extractor)
     {
       auto t = BWAPI::UnitTypes::Zerg_Extractor;
+      Assert_enum(Zerg_Extractor);
 
+      Assert_getName(Zerg_Extractor);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(Zerg_Drone, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Drone, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(750);
       Assert_maxShields(0);
@@ -10828,12 +12784,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(4);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(4, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(64);
       Assert_dimensionUp(32);
       Assert_dimensionRight(63);
       Assert_dimensionDown(31);
       Assert_width(128);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(64);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(224);
       Assert_groundWeapon(None);
@@ -10875,18 +12834,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Mature_Chrysalis)
+    TEST_METHOD(UnitTypeSpecial_Mature_Chrysalis)
     {
       auto t = BWAPI::UnitTypes::Special_Mature_Chrysalis;
+      Assert_enum(Special_Mature_Chrysalis);
 
+      Assert_getName(Special_Mature_Chrysalis);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(250);
       Assert_maxShields(0);
@@ -10905,12 +12875,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(32);
       Assert_dimensionUp(32);
       Assert_dimensionRight(31);
       Assert_dimensionDown(31);
       Assert_width(64);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(64);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -10952,18 +12925,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(true);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Cerebrate)
+    TEST_METHOD(UnitTypeSpecial_Cerebrate)
     {
       auto t = BWAPI::UnitTypes::Special_Cerebrate;
+      Assert_enum(Special_Cerebrate);
 
+      Assert_getName(Special_Cerebrate);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(1500);
       Assert_maxShields(0);
@@ -10982,12 +12966,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(40);
       Assert_dimensionUp(32);
       Assert_dimensionRight(32);
       Assert_dimensionDown(31);
       Assert_width(73);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(64);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -11029,18 +13016,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(true);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Cerebrate_Daggoth)
+    TEST_METHOD(UnitTypeSpecial_Cerebrate_Daggoth)
     {
       auto t = BWAPI::UnitTypes::Special_Cerebrate_Daggoth;
+      Assert_enum(Special_Cerebrate_Daggoth);
 
+      Assert_getName(Special_Cerebrate_Daggoth);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(1500);
       Assert_maxShields(0);
@@ -11059,12 +13057,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(40);
       Assert_dimensionUp(32);
       Assert_dimensionRight(32);
       Assert_dimensionDown(31);
       Assert_width(73);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(64);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -11106,18 +13107,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(true);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Nexus)
+    TEST_METHOD(UnitTypeProtoss_Nexus)
     {
       auto t = BWAPI::UnitTypes::Protoss_Nexus;
+      Assert_enum(Protoss_Nexus);
 
+      Assert_getName(Protoss_Nexus);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Probe, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields }, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(750);
       Assert_maxShields(750);
@@ -11136,12 +13148,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(56);
       Assert_dimensionUp(39);
       Assert_dimensionRight(56);
       Assert_dimensionDown(39);
       Assert_width(113);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(79);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(352);
       Assert_groundWeapon(None);
@@ -11183,18 +13198,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({ BWAPI::UnitTypes::Protoss_Probe }, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Robotics_Facility)
+    TEST_METHOD(UnitTypeProtoss_Robotics_Facility)
     {
       auto t = BWAPI::UnitTypes::Protoss_Robotics_Facility;
+      Assert_enum(Protoss_Robotics_Facility);
 
+      Assert_getName(Protoss_Robotics_Facility);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Probe, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 }, { BWAPI::UnitTypes::Protoss_Cybernetics_Core, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields }, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(500);
       Assert_maxShields(500);
@@ -11213,12 +13239,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(36);
       Assert_dimensionUp(16);
       Assert_dimensionRight(40);
       Assert_dimensionDown(20);
       Assert_width(77);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(37);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -11260,18 +13289,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({ BWAPI::UnitTypes::Protoss_Observer, BWAPI::UnitTypes::Protoss_Reaver, BWAPI::UnitTypes::Protoss_Shuttle }, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Pylon)
+    TEST_METHOD(UnitTypeProtoss_Pylon)
     {
       auto t = BWAPI::UnitTypes::Protoss_Pylon;
+      Assert_enum(Protoss_Pylon);
 
+      Assert_getName(Protoss_Pylon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Probe, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields }, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(300);
       Assert_maxShields(300);
@@ -11290,12 +13330,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(12);
       Assert_dimensionRight(16);
       Assert_dimensionDown(20);
       Assert_width(33);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(33);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -11337,18 +13380,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Assimilator)
+    TEST_METHOD(UnitTypeProtoss_Assimilator)
     {
       auto t = BWAPI::UnitTypes::Protoss_Assimilator;
+      Assert_enum(Protoss_Assimilator);
 
+      Assert_getName(Protoss_Assimilator);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Probe, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields }, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(450);
       Assert_maxShields(450);
@@ -11367,12 +13421,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(4);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(4, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(48);
       Assert_dimensionUp(32);
       Assert_dimensionRight(48);
       Assert_dimensionDown(24);
       Assert_width(97);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(57);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -11414,18 +13471,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Observatory)
+    TEST_METHOD(UnitTypeProtoss_Observatory)
     {
       auto t = BWAPI::UnitTypes::Protoss_Observatory;
+      Assert_enum(Protoss_Observatory);
 
+      Assert_getName(Protoss_Observatory);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Probe, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 }, { BWAPI::UnitTypes::Protoss_Robotics_Facility, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields }, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(250);
       Assert_maxShields(250);
@@ -11444,12 +13512,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(44);
       Assert_dimensionUp(16);
       Assert_dimensionRight(44);
       Assert_dimensionDown(28);
       Assert_width(89);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(45);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -11491,18 +13562,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Sensor_Array, BWAPI::UpgradeTypes::Gravitic_Boosters }, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Gateway)
+    TEST_METHOD(UnitTypeProtoss_Gateway)
     {
       auto t = BWAPI::UnitTypes::Protoss_Gateway;
+      Assert_enum(Protoss_Gateway);
 
+      Assert_getName(Protoss_Gateway);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Probe, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 }, { BWAPI::UnitTypes::Protoss_Nexus, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields }, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(500);
       Assert_maxShields(500);
@@ -11521,12 +13603,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(48);
       Assert_dimensionUp(32);
       Assert_dimensionRight(48);
       Assert_dimensionDown(40);
       Assert_width(97);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(73);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -11568,18 +13653,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({ BWAPI::UnitTypes::Protoss_Zealot, BWAPI::UnitTypes::Protoss_Dragoon, BWAPI::UnitTypes::Protoss_High_Templar, BWAPI::UnitTypes::Protoss_Dark_Templar }, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Photon_Cannon)
+    TEST_METHOD(UnitTypeProtoss_Photon_Cannon)
     {
       auto t = BWAPI::UnitTypes::Protoss_Photon_Cannon;
+      Assert_enum(Protoss_Photon_Cannon);
 
+      Assert_getName(Protoss_Photon_Cannon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Probe, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 }, { BWAPI::UnitTypes::Protoss_Forge, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields }, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100);
       Assert_maxShields(100);
@@ -11598,12 +13694,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(20);
       Assert_dimensionUp(16);
       Assert_dimensionRight(20);
       Assert_dimensionDown(16);
       Assert_width(41);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(33);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(352);
       Assert_groundWeapon(STS_Photon_Cannon);
@@ -11645,18 +13744,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Citadel_of_Adun)
+    TEST_METHOD(UnitTypeProtoss_Citadel_of_Adun)
     {
       auto t = BWAPI::UnitTypes::Protoss_Citadel_of_Adun;
+      Assert_enum(Protoss_Citadel_of_Adun);
 
+      Assert_getName(Protoss_Citadel_of_Adun);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Probe, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 }, { BWAPI::UnitTypes::Protoss_Cybernetics_Core, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields }, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(450);
       Assert_maxShields(450);
@@ -11675,12 +13785,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(24);
       Assert_dimensionUp(24);
       Assert_dimensionRight(40);
       Assert_dimensionDown(24);
       Assert_width(65);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(49);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -11722,18 +13835,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Leg_Enhancements }, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Cybernetics_Core)
+    TEST_METHOD(UnitTypeProtoss_Cybernetics_Core)
     {
       auto t = BWAPI::UnitTypes::Protoss_Cybernetics_Core;
+      Assert_enum(Protoss_Cybernetics_Core);
 
+      Assert_getName(Protoss_Cybernetics_Core);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Probe, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 }, { BWAPI::UnitTypes::Protoss_Gateway, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields }, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(500);
       Assert_maxShields(500);
@@ -11752,12 +13876,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(40);
       Assert_dimensionUp(24);
       Assert_dimensionRight(40);
       Assert_dimensionDown(24);
       Assert_width(81);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(49);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -11799,18 +13926,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Air_Armor, BWAPI::UpgradeTypes::Protoss_Air_Weapons, BWAPI::UpgradeTypes::Singularity_Charge }, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Templar_Archives)
+    TEST_METHOD(UnitTypeProtoss_Templar_Archives)
     {
       auto t = BWAPI::UnitTypes::Protoss_Templar_Archives;
+      Assert_enum(Protoss_Templar_Archives);
 
+      Assert_getName(Protoss_Templar_Archives);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Probe, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 }, { BWAPI::UnitTypes::Protoss_Citadel_of_Adun, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields }, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(500);
       Assert_maxShields(500);
@@ -11829,12 +13967,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(32);
       Assert_dimensionUp(24);
       Assert_dimensionRight(32);
       Assert_dimensionDown(24);
       Assert_width(65);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(49);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -11876,18 +14017,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({ BWAPI::TechTypes::Psionic_Storm, BWAPI::TechTypes::Mind_Control, BWAPI::TechTypes::Hallucination, BWAPI::TechTypes::Maelstrom }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Khaydarin_Amulet, BWAPI::UpgradeTypes::Argus_Talisman }, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Forge)
+    TEST_METHOD(UnitTypeProtoss_Forge)
     {
       auto t = BWAPI::UnitTypes::Protoss_Forge;
+      Assert_enum(Protoss_Forge);
 
+      Assert_getName(Protoss_Forge);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Probe, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 }, { BWAPI::UnitTypes::Protoss_Nexus, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields }, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(550);
       Assert_maxShields(550);
@@ -11906,12 +14058,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(36);
       Assert_dimensionUp(24);
       Assert_dimensionRight(36);
       Assert_dimensionDown(20);
       Assert_width(73);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(45);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -11953,18 +14108,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Ground_Armor, BWAPI::UpgradeTypes::Protoss_Ground_Weapons, BWAPI::UpgradeTypes::Protoss_Plasma_Shields }, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Stargate)
+    TEST_METHOD(UnitTypeProtoss_Stargate)
     {
       auto t = BWAPI::UnitTypes::Protoss_Stargate;
+      Assert_enum(Protoss_Stargate);
 
+      Assert_getName(Protoss_Stargate);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Probe, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 }, { BWAPI::UnitTypes::Protoss_Cybernetics_Core, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields }, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(600);
       Assert_maxShields(600);
@@ -11983,12 +14149,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(48);
       Assert_dimensionUp(40);
       Assert_dimensionRight(48);
       Assert_dimensionDown(32);
       Assert_width(97);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(73);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -12030,18 +14199,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({ BWAPI::UnitTypes::Protoss_Scout, BWAPI::UnitTypes::Protoss_Carrier, BWAPI::UnitTypes::Protoss_Arbiter, BWAPI::UnitTypes::Protoss_Corsair }, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Stasis_Cell_Prison)
+    TEST_METHOD(UnitTypeSpecial_Stasis_Cell_Prison)
     {
       auto t = BWAPI::UnitTypes::Special_Stasis_Cell_Prison;
+      Assert_enum(Special_Stasis_Cell_Prison);
 
+      Assert_getName(Special_Stasis_Cell_Prison);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(2000);
       Assert_maxShields(0);
@@ -12060,12 +14240,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(64);
       Assert_dimensionUp(48);
       Assert_dimensionRight(63);
       Assert_dimensionDown(47);
       Assert_width(128);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(96);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -12107,18 +14290,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(true);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Fleet_Beacon)
+    TEST_METHOD(UnitTypeProtoss_Fleet_Beacon)
     {
       auto t = BWAPI::UnitTypes::Protoss_Fleet_Beacon;
+      Assert_enum(Protoss_Fleet_Beacon);
 
+      Assert_getName(Protoss_Fleet_Beacon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Probe, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 }, { BWAPI::UnitTypes::Protoss_Stargate, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields }, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(500);
       Assert_maxShields(500);
@@ -12137,12 +14331,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(40);
       Assert_dimensionUp(32);
       Assert_dimensionRight(47);
       Assert_dimensionDown(24);
       Assert_width(88);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(57);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -12184,18 +14381,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({ BWAPI::TechTypes::Disruption_Web }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Carrier_Capacity, BWAPI::UpgradeTypes::Apial_Sensors, BWAPI::UpgradeTypes::Gravitic_Thrusters, BWAPI::UpgradeTypes::Argus_Jewel }, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Arbiter_Tribunal)
+    TEST_METHOD(UnitTypeProtoss_Arbiter_Tribunal)
     {
       auto t = BWAPI::UnitTypes::Protoss_Arbiter_Tribunal;
+      Assert_enum(Protoss_Arbiter_Tribunal);
 
+      Assert_getName(Protoss_Arbiter_Tribunal);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Probe, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 }, { BWAPI::UnitTypes::Protoss_Templar_Archives, 1 }, { BWAPI::UnitTypes::Protoss_Stargate, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields }, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(500);
       Assert_maxShields(500);
@@ -12214,12 +14422,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(44);
       Assert_dimensionUp(28);
       Assert_dimensionRight(44);
       Assert_dimensionDown(28);
       Assert_width(89);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(57);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -12261,18 +14472,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({ BWAPI::TechTypes::Stasis_Field, BWAPI::TechTypes::Recall }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Khaydarin_Core }, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Robotics_Support_Bay)
+    TEST_METHOD(UnitTypeProtoss_Robotics_Support_Bay)
     {
       auto t = BWAPI::UnitTypes::Protoss_Robotics_Support_Bay;
+      Assert_enum(Protoss_Robotics_Support_Bay);
 
+      Assert_getName(Protoss_Robotics_Support_Bay);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Probe, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 }, { BWAPI::UnitTypes::Protoss_Robotics_Facility, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields }, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(450);
       Assert_maxShields(450);
@@ -12291,12 +14513,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(32);
       Assert_dimensionUp(32);
       Assert_dimensionRight(32);
       Assert_dimensionDown(20);
       Assert_width(65);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(53);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -12338,18 +14563,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Scarab_Damage, BWAPI::UpgradeTypes::Reaver_Capacity, BWAPI::UpgradeTypes::Gravitic_Drive }, t.upgradesWhat());
     }
-    TEST_METHOD(TestProtoss_Shield_Battery)
+    TEST_METHOD(UnitTypeProtoss_Shield_Battery)
     {
       auto t = BWAPI::UnitTypes::Protoss_Shield_Battery;
+      Assert_enum(Protoss_Shield_Battery);
 
+      Assert_getName(Protoss_Shield_Battery);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(Protoss_Probe, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 }, { BWAPI::UnitTypes::Protoss_Gateway, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Plasma_Shields }, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(200);
       Assert_maxShields(200);
@@ -12368,12 +14604,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(32);
       Assert_dimensionUp(16);
       Assert_dimensionRight(32);
       Assert_dimensionDown(16);
       Assert_width(65);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(33);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -12415,18 +14654,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Khaydarin_Crystal_Form)
+    TEST_METHOD(UnitTypeSpecial_Khaydarin_Crystal_Form)
     {
       auto t = BWAPI::UnitTypes::Special_Khaydarin_Crystal_Form;
+      Assert_enum(Special_Khaydarin_Crystal_Form);
 
+      Assert_getName(Special_Khaydarin_Crystal_Form);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
@@ -12445,12 +14695,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(64);
       Assert_dimensionUp(48);
       Assert_dimensionRight(63);
       Assert_dimensionDown(47);
       Assert_width(128);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(96);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -12492,18 +14745,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(true);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Protoss_Temple)
+    TEST_METHOD(UnitTypeSpecial_Protoss_Temple)
     {
       auto t = BWAPI::UnitTypes::Special_Protoss_Temple;
+      Assert_enum(Special_Protoss_Temple);
 
+      Assert_getName(Special_Protoss_Temple);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(1500);
       Assert_maxShields(0);
@@ -12522,12 +14786,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(7);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(7, 3));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(112);
       Assert_dimensionUp(48);
       Assert_dimensionRight(111);
       Assert_dimensionDown(47);
       Assert_width(224);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(96);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -12569,18 +14836,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(true);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_XelNaga_Temple)
+    TEST_METHOD(UnitTypeSpecial_XelNaga_Temple)
     {
       auto t = BWAPI::UnitTypes::Special_XelNaga_Temple;
+      Assert_enum(Special_XelNaga_Temple);
 
+      Assert_getName(Special_XelNaga_Temple);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(5000);
       Assert_maxShields(0);
@@ -12599,12 +14877,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(5);
       Assert_tileHeight(4);
       Assert_tileSize(BWAPI::TilePosition(5, 4));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(80);
       Assert_dimensionUp(34);
       Assert_dimensionRight(79);
       Assert_dimensionDown(63);
       Assert_width(160);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(98);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -12646,18 +14927,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(true);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestResource_Mineral_Field)
+    TEST_METHOD(UnitTypeResource_Mineral_Field)
     {
       auto t = BWAPI::UnitTypes::Resource_Mineral_Field;
+      Assert_enum(Resource_Mineral_Field);
 
+      Assert_getName(Resource_Mineral_Field);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
@@ -12676,12 +14968,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(2, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(32);
       Assert_dimensionUp(16);
       Assert_dimensionRight(31);
       Assert_dimensionDown(15);
       Assert_width(64);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(288);
       Assert_groundWeapon(None);
@@ -12723,18 +15018,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(true);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(true);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestResource_Mineral_Field_Type_2)
+    TEST_METHOD(UnitTypeResource_Mineral_Field_Type_2)
     {
       auto t = BWAPI::UnitTypes::Resource_Mineral_Field_Type_2;
+      Assert_enum(Resource_Mineral_Field_Type_2);
 
+      Assert_getName(Resource_Mineral_Field_Type_2);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
@@ -12753,12 +15059,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(2, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(32);
       Assert_dimensionUp(16);
       Assert_dimensionRight(31);
       Assert_dimensionDown(15);
       Assert_width(64);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(288);
       Assert_groundWeapon(None);
@@ -12800,18 +15109,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(true);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(true);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestResource_Mineral_Field_Type_3)
+    TEST_METHOD(UnitTypeResource_Mineral_Field_Type_3)
     {
       auto t = BWAPI::UnitTypes::Resource_Mineral_Field_Type_3;
+      Assert_enum(Resource_Mineral_Field_Type_3);
 
+      Assert_getName(Resource_Mineral_Field_Type_3);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
@@ -12830,12 +15150,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(2, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(32);
       Assert_dimensionUp(16);
       Assert_dimensionRight(31);
       Assert_dimensionDown(15);
       Assert_width(64);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(288);
       Assert_groundWeapon(None);
@@ -12877,18 +15200,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(true);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(true);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Independant_Starport)
+    TEST_METHOD(UnitTypeSpecial_Independant_Starport)
     {
       auto t = BWAPI::UnitTypes::Special_Independant_Starport;
+      Assert_enum(Special_Independant_Starport);
 
+      Assert_getName(Special_Independant_Starport);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
@@ -12907,12 +15241,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(32);
       Assert_dimensionUp(32);
       Assert_dimensionRight(31);
       Assert_dimensionDown(31);
       Assert_width(64);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(64);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(288);
       Assert_groundWeapon(Independant_Laser_Battery);
@@ -12954,18 +15291,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(true);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestResource_Vespene_Geyser)
+    TEST_METHOD(UnitTypeResource_Vespene_Geyser)
     {
       auto t = BWAPI::UnitTypes::Resource_Vespene_Geyser;
+      Assert_enum(Resource_Vespene_Geyser);
 
+      Assert_getName(Resource_Vespene_Geyser);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
@@ -12984,12 +15332,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(4);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(4, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(64);
       Assert_dimensionUp(32);
       Assert_dimensionRight(63);
       Assert_dimensionDown(31);
       Assert_width(128);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(64);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(288);
       Assert_groundWeapon(None);
@@ -13031,18 +15382,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(true);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Warp_Gate)
+    TEST_METHOD(UnitTypeSpecial_Warp_Gate)
     {
       auto t = BWAPI::UnitTypes::Special_Warp_Gate;
+      Assert_enum(Special_Warp_Gate);
 
+      Assert_getName(Special_Warp_Gate);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(700);
       Assert_maxShields(0);
@@ -13061,12 +15423,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(48);
       Assert_dimensionUp(32);
       Assert_dimensionRight(47);
       Assert_dimensionDown(31);
       Assert_width(96);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(64);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -13108,18 +15473,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(true);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Psi_Disrupter)
+    TEST_METHOD(UnitTypeSpecial_Psi_Disrupter)
     {
       auto t = BWAPI::UnitTypes::Special_Psi_Disrupter;
+      Assert_enum(Special_Psi_Disrupter);
 
+      Assert_getName(Special_Psi_Disrupter);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(2000);
       Assert_maxShields(0);
@@ -13138,12 +15514,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(5);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(5, 3));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(80);
       Assert_dimensionUp(38);
       Assert_dimensionRight(69);
       Assert_dimensionDown(47);
       Assert_width(150);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(86);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -13185,18 +15564,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(true);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Zerg_Beacon)
+    TEST_METHOD(UnitTypeSpecial_Zerg_Beacon)
     {
       auto t = BWAPI::UnitTypes::Special_Zerg_Beacon;
+      Assert_enum(Special_Zerg_Beacon);
 
+      Assert_getName(Special_Zerg_Beacon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
@@ -13215,12 +15605,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(48);
       Assert_dimensionUp(32);
       Assert_dimensionRight(47);
       Assert_dimensionDown(31);
       Assert_width(96);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(64);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -13262,18 +15655,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(true);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Terran_Beacon)
+    TEST_METHOD(UnitTypeSpecial_Terran_Beacon)
     {
       auto t = BWAPI::UnitTypes::Special_Terran_Beacon;
+      Assert_enum(Special_Terran_Beacon);
 
+      Assert_getName(Special_Terran_Beacon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
@@ -13292,12 +15696,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(48);
       Assert_dimensionUp(32);
       Assert_dimensionRight(47);
       Assert_dimensionDown(31);
       Assert_width(96);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(64);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -13339,18 +15746,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(true);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Protoss_Beacon)
+    TEST_METHOD(UnitTypeSpecial_Protoss_Beacon)
     {
       auto t = BWAPI::UnitTypes::Special_Protoss_Beacon;
+      Assert_enum(Special_Protoss_Beacon);
 
+      Assert_getName(Special_Protoss_Beacon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
@@ -13369,12 +15787,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(48);
       Assert_dimensionUp(32);
       Assert_dimensionRight(47);
       Assert_dimensionDown(31);
       Assert_width(96);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(64);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -13416,18 +15837,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(true);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Zerg_Flag_Beacon)
+    TEST_METHOD(UnitTypeSpecial_Zerg_Flag_Beacon)
     {
       auto t = BWAPI::UnitTypes::Special_Zerg_Flag_Beacon;
+      Assert_enum(Special_Zerg_Flag_Beacon);
 
+      Assert_getName(Special_Zerg_Flag_Beacon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
@@ -13446,12 +15878,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(48);
       Assert_dimensionUp(32);
       Assert_dimensionRight(47);
       Assert_dimensionDown(31);
       Assert_width(96);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(64);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -13493,18 +15928,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(true);
       Assert_isSpecialBuilding(true);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Terran_Flag_Beacon)
+    TEST_METHOD(UnitTypeSpecial_Terran_Flag_Beacon)
     {
       auto t = BWAPI::UnitTypes::Special_Terran_Flag_Beacon;
+      Assert_enum(Special_Terran_Flag_Beacon);
 
+      Assert_getName(Special_Terran_Flag_Beacon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
@@ -13523,12 +15969,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(48);
       Assert_dimensionUp(32);
       Assert_dimensionRight(47);
       Assert_dimensionDown(31);
       Assert_width(96);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(64);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -13570,18 +16019,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(true);
       Assert_isSpecialBuilding(true);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Protoss_Flag_Beacon)
+    TEST_METHOD(UnitTypeSpecial_Protoss_Flag_Beacon)
     {
       auto t = BWAPI::UnitTypes::Special_Protoss_Flag_Beacon;
+      Assert_enum(Special_Protoss_Flag_Beacon);
 
+      Assert_getName(Special_Protoss_Flag_Beacon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
@@ -13600,12 +16060,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(48);
       Assert_dimensionUp(32);
       Assert_dimensionRight(47);
       Assert_dimensionDown(31);
       Assert_width(96);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(64);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -13647,18 +16110,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(true);
       Assert_isSpecialBuilding(true);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Power_Generator)
+    TEST_METHOD(UnitTypeSpecial_Power_Generator)
     {
       auto t = BWAPI::UnitTypes::Special_Power_Generator;
+      Assert_enum(Special_Power_Generator);
 
+      Assert_getName(Special_Power_Generator);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
@@ -13677,12 +16151,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(56);
       Assert_dimensionUp(28);
       Assert_dimensionRight(63);
       Assert_dimensionDown(43);
       Assert_width(120);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(72);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -13724,18 +16201,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(true);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Overmind_Cocoon)
+    TEST_METHOD(UnitTypeSpecial_Overmind_Cocoon)
     {
       auto t = BWAPI::UnitTypes::Special_Overmind_Cocoon;
+      Assert_enum(Special_Overmind_Cocoon);
 
+      Assert_getName(Special_Overmind_Cocoon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(2500);
       Assert_maxShields(0);
@@ -13754,12 +16242,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(48);
       Assert_dimensionUp(32);
       Assert_dimensionRight(47);
       Assert_dimensionDown(31);
       Assert_width(96);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(64);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(320);
       Assert_groundWeapon(None);
@@ -13801,18 +16292,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(true);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpell_Dark_Swarm)
+    TEST_METHOD(UnitTypeSpell_Dark_Swarm)
     {
       auto t = BWAPI::UnitTypes::Spell_Dark_Swarm;
+      Assert_enum(Spell_Dark_Swarm);
 
+      Assert_getName(Spell_Dark_Swarm);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
@@ -13831,12 +16333,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(5);
       Assert_tileHeight(5);
       Assert_tileSize(BWAPI::TilePosition(5, 5));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(80);
       Assert_dimensionUp(80);
       Assert_dimensionRight(79);
       Assert_dimensionDown(79);
       Assert_width(160);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(160);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(256);
       Assert_groundWeapon(None);
@@ -13878,18 +16383,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(true);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Floor_Missile_Trap)
+    TEST_METHOD(UnitTypeSpecial_Floor_Missile_Trap)
     {
       auto t = BWAPI::UnitTypes::Special_Floor_Missile_Trap;
+      Assert_enum(Special_Floor_Missile_Trap);
 
+      Assert_getName(Special_Floor_Missile_Trap);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Vehicle_Weapons }, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(50);
       Assert_maxShields(0);
@@ -13908,12 +16424,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(32);
       Assert_dimensionUp(32);
       Assert_dimensionRight(31);
       Assert_dimensionDown(31);
       Assert_width(64);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(64);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(160);
       Assert_sightRange(192);
       Assert_groundWeapon(Hellfire_Missile_Pack_Floor_Trap);
@@ -13955,18 +16474,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Floor_Hatch)
+    TEST_METHOD(UnitTypeSpecial_Floor_Hatch)
     {
       auto t = BWAPI::UnitTypes::Special_Floor_Hatch;
+      Assert_enum(Special_Floor_Hatch);
 
+      Assert_getName(Special_Floor_Hatch);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
@@ -13985,12 +16515,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(8);
       Assert_tileHeight(4);
       Assert_tileSize(BWAPI::TilePosition(8, 4));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(128);
       Assert_dimensionUp(64);
       Assert_dimensionRight(127);
       Assert_dimensionDown(63);
       Assert_width(256);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(128);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(224);
       Assert_groundWeapon(None);
@@ -14032,18 +16565,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Upper_Level_Door)
+    TEST_METHOD(UnitTypeSpecial_Upper_Level_Door)
     {
       auto t = BWAPI::UnitTypes::Special_Upper_Level_Door;
+      Assert_enum(Special_Upper_Level_Door);
 
+      Assert_getName(Special_Upper_Level_Door);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
@@ -14062,12 +16606,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(25);
       Assert_dimensionUp(17);
       Assert_dimensionRight(44);
       Assert_dimensionDown(20);
       Assert_width(70);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(38);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(32);
       Assert_groundWeapon(None);
@@ -14109,18 +16656,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Right_Upper_Level_Door)
+    TEST_METHOD(UnitTypeSpecial_Right_Upper_Level_Door)
     {
       auto t = BWAPI::UnitTypes::Special_Right_Upper_Level_Door;
+      Assert_enum(Special_Right_Upper_Level_Door);
 
+      Assert_getName(Special_Right_Upper_Level_Door);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
@@ -14139,12 +16697,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(44);
       Assert_dimensionUp(17);
       Assert_dimensionRight(25);
       Assert_dimensionDown(20);
       Assert_width(70);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(38);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(32);
       Assert_groundWeapon(None);
@@ -14186,18 +16747,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Pit_Door)
+    TEST_METHOD(UnitTypeSpecial_Pit_Door)
     {
       auto t = BWAPI::UnitTypes::Special_Pit_Door;
+      Assert_enum(Special_Pit_Door);
 
+      Assert_getName(Special_Pit_Door);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
@@ -14216,12 +16788,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(41);
       Assert_dimensionUp(17);
       Assert_dimensionRight(28);
       Assert_dimensionDown(20);
       Assert_width(70);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(38);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(32);
       Assert_groundWeapon(None);
@@ -14263,18 +16838,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Right_Pit_Door)
+    TEST_METHOD(UnitTypeSpecial_Right_Pit_Door)
     {
       auto t = BWAPI::UnitTypes::Special_Right_Pit_Door;
+      Assert_enum(Special_Right_Pit_Door);
 
+      Assert_getName(Special_Right_Pit_Door);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
@@ -14293,12 +16879,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(28);
       Assert_dimensionUp(17);
       Assert_dimensionRight(41);
       Assert_dimensionDown(20);
       Assert_width(70);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(38);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(32);
       Assert_groundWeapon(None);
@@ -14340,18 +16929,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Floor_Gun_Trap)
+    TEST_METHOD(UnitTypeSpecial_Floor_Gun_Trap)
     {
       auto t = BWAPI::UnitTypes::Special_Floor_Gun_Trap;
+      Assert_enum(Special_Floor_Gun_Trap);
 
+      Assert_getName(Special_Floor_Gun_Trap);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Vehicle_Weapons }, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(50);
       Assert_maxShields(0);
@@ -14370,12 +16970,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(32);
       Assert_dimensionUp(32);
       Assert_dimensionRight(31);
       Assert_dimensionDown(31);
       Assert_width(64);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(64);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(160);
       Assert_sightRange(192);
       Assert_groundWeapon(Twin_Autocannons_Floor_Trap);
@@ -14417,18 +17020,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Wall_Missile_Trap)
+    TEST_METHOD(UnitTypeSpecial_Wall_Missile_Trap)
     {
       auto t = BWAPI::UnitTypes::Special_Wall_Missile_Trap;
+      Assert_enum(Special_Wall_Missile_Trap);
 
+      Assert_getName(Special_Wall_Missile_Trap);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Vehicle_Weapons }, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(50);
       Assert_maxShields(0);
@@ -14447,12 +17061,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(160);
       Assert_sightRange(192);
       Assert_groundWeapon(Hellfire_Missile_Pack_Wall_Trap);
@@ -14494,18 +17111,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Wall_Flame_Trap)
+    TEST_METHOD(UnitTypeSpecial_Wall_Flame_Trap)
     {
       auto t = BWAPI::UnitTypes::Special_Wall_Flame_Trap;
+      Assert_enum(Special_Wall_Flame_Trap);
 
+      Assert_getName(Special_Wall_Flame_Trap);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Infantry_Weapons }, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(50);
       Assert_maxShields(0);
@@ -14524,12 +17152,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(64);
       Assert_sightRange(96);
       Assert_groundWeapon(Flame_Thrower_Wall_Trap);
@@ -14571,18 +17202,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Right_Wall_Missile_Trap)
+    TEST_METHOD(UnitTypeSpecial_Right_Wall_Missile_Trap)
     {
       auto t = BWAPI::UnitTypes::Special_Right_Wall_Missile_Trap;
+      Assert_enum(Special_Right_Wall_Missile_Trap);
 
+      Assert_getName(Special_Right_Wall_Missile_Trap);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Vehicle_Weapons }, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(50);
       Assert_maxShields(0);
@@ -14601,12 +17243,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(160);
       Assert_sightRange(192);
       Assert_groundWeapon(Hellfire_Missile_Pack_Wall_Trap);
@@ -14648,18 +17293,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Right_Wall_Flame_Trap)
+    TEST_METHOD(UnitTypeSpecial_Right_Wall_Flame_Trap)
     {
       auto t = BWAPI::UnitTypes::Special_Right_Wall_Flame_Trap;
+      Assert_enum(Special_Right_Wall_Flame_Trap);
 
+      Assert_getName(Special_Right_Wall_Flame_Trap);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Infantry_Weapons }, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(50);
       Assert_maxShields(0);
@@ -14678,12 +17334,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(64);
       Assert_sightRange(96);
       Assert_groundWeapon(Flame_Thrower_Wall_Trap);
@@ -14725,18 +17384,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestSpecial_Start_Location)
+    TEST_METHOD(UnitTypeSpecial_Start_Location)
     {
       auto t = BWAPI::UnitTypes::Special_Start_Location;
+      Assert_enum(Special_Start_Location);
 
+      Assert_getName(Special_Start_Location);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
@@ -14755,12 +17425,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(48);
       Assert_dimensionUp(32);
       Assert_dimensionRight(48);
       Assert_dimensionDown(32);
       Assert_width(97);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(65);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(32);
       Assert_groundWeapon(None);
@@ -14802,18 +17475,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(true);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestPowerup_Flag)
+    TEST_METHOD(UnitTypePowerup_Flag)
     {
       auto t = BWAPI::UnitTypes::Powerup_Flag;
+      Assert_enum(Powerup_Flag);
 
+      Assert_getName(Powerup_Flag);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
@@ -14832,12 +17516,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(160);
       Assert_groundWeapon(None);
@@ -14879,18 +17566,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestPowerup_Young_Chrysalis)
+    TEST_METHOD(UnitTypePowerup_Young_Chrysalis)
     {
       auto t = BWAPI::UnitTypes::Powerup_Young_Chrysalis;
+      Assert_enum(Powerup_Young_Chrysalis);
 
+      Assert_getName(Powerup_Young_Chrysalis);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
@@ -14909,12 +17607,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(160);
       Assert_groundWeapon(None);
@@ -14956,18 +17657,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestPowerup_Psi_Emitter)
+    TEST_METHOD(UnitTypePowerup_Psi_Emitter)
     {
       auto t = BWAPI::UnitTypes::Powerup_Psi_Emitter;
+      Assert_enum(Powerup_Psi_Emitter);
 
+      Assert_getName(Powerup_Psi_Emitter);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
@@ -14986,12 +17698,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(160);
       Assert_groundWeapon(None);
@@ -15033,18 +17748,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestPowerup_Data_Disk)
+    TEST_METHOD(UnitTypePowerup_Data_Disk)
     {
       auto t = BWAPI::UnitTypes::Powerup_Data_Disk;
+      Assert_enum(Powerup_Data_Disk);
 
+      Assert_getName(Powerup_Data_Disk);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
@@ -15063,12 +17789,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(160);
       Assert_groundWeapon(None);
@@ -15110,18 +17839,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestPowerup_Khaydarin_Crystal)
+    TEST_METHOD(UnitTypePowerup_Khaydarin_Crystal)
     {
       auto t = BWAPI::UnitTypes::Powerup_Khaydarin_Crystal;
+      Assert_enum(Powerup_Khaydarin_Crystal);
 
+      Assert_getName(Powerup_Khaydarin_Crystal);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
@@ -15140,12 +17880,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(160);
       Assert_groundWeapon(None);
@@ -15187,18 +17930,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestPowerup_Mineral_Cluster_Type_1)
+    TEST_METHOD(UnitTypePowerup_Mineral_Cluster_Type_1)
     {
       auto t = BWAPI::UnitTypes::Powerup_Mineral_Cluster_Type_1;
+      Assert_enum(Powerup_Mineral_Cluster_Type_1);
 
+      Assert_getName(Powerup_Mineral_Cluster_Type_1);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
@@ -15217,12 +17971,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(160);
       Assert_groundWeapon(None);
@@ -15264,18 +18021,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestPowerup_Mineral_Cluster_Type_2)
+    TEST_METHOD(UnitTypePowerup_Mineral_Cluster_Type_2)
     {
       auto t = BWAPI::UnitTypes::Powerup_Mineral_Cluster_Type_2;
+      Assert_enum(Powerup_Mineral_Cluster_Type_2);
 
+      Assert_getName(Powerup_Mineral_Cluster_Type_2);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
@@ -15294,12 +18062,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(160);
       Assert_groundWeapon(None);
@@ -15341,18 +18112,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestPowerup_Protoss_Gas_Orb_Type_1)
+    TEST_METHOD(UnitTypePowerup_Protoss_Gas_Orb_Type_1)
     {
       auto t = BWAPI::UnitTypes::Powerup_Protoss_Gas_Orb_Type_1;
+      Assert_enum(Powerup_Protoss_Gas_Orb_Type_1);
 
+      Assert_getName(Powerup_Protoss_Gas_Orb_Type_1);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
@@ -15371,12 +18153,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(160);
       Assert_groundWeapon(None);
@@ -15418,18 +18203,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestPowerup_Protoss_Gas_Orb_Type_2)
+    TEST_METHOD(UnitTypePowerup_Protoss_Gas_Orb_Type_2)
     {
       auto t = BWAPI::UnitTypes::Powerup_Protoss_Gas_Orb_Type_2;
+      Assert_enum(Powerup_Protoss_Gas_Orb_Type_2);
 
+      Assert_getName(Powerup_Protoss_Gas_Orb_Type_2);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
@@ -15448,12 +18244,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(160);
       Assert_groundWeapon(None);
@@ -15495,18 +18294,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestPowerup_Zerg_Gas_Sac_Type_1)
+    TEST_METHOD(UnitTypePowerup_Zerg_Gas_Sac_Type_1)
     {
       auto t = BWAPI::UnitTypes::Powerup_Zerg_Gas_Sac_Type_1;
+      Assert_enum(Powerup_Zerg_Gas_Sac_Type_1);
 
+      Assert_getName(Powerup_Zerg_Gas_Sac_Type_1);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
@@ -15525,12 +18335,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(160);
       Assert_groundWeapon(None);
@@ -15572,18 +18385,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestPowerup_Zerg_Gas_Sac_Type_2)
+    TEST_METHOD(UnitTypePowerup_Zerg_Gas_Sac_Type_2)
     {
       auto t = BWAPI::UnitTypes::Powerup_Zerg_Gas_Sac_Type_2;
+      Assert_enum(Powerup_Zerg_Gas_Sac_Type_2);
 
+      Assert_getName(Powerup_Zerg_Gas_Sac_Type_2);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
@@ -15602,12 +18426,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(160);
       Assert_groundWeapon(None);
@@ -15649,18 +18476,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestPowerup_Terran_Gas_Tank_Type_1)
+    TEST_METHOD(UnitTypePowerup_Terran_Gas_Tank_Type_1)
     {
       auto t = BWAPI::UnitTypes::Powerup_Terran_Gas_Tank_Type_1;
+      Assert_enum(Powerup_Terran_Gas_Tank_Type_1);
 
+      Assert_getName(Powerup_Terran_Gas_Tank_Type_1);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
@@ -15679,12 +18517,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(160);
       Assert_groundWeapon(None);
@@ -15726,18 +18567,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestPowerup_Terran_Gas_Tank_Type_2)
+    TEST_METHOD(UnitTypePowerup_Terran_Gas_Tank_Type_2)
     {
       auto t = BWAPI::UnitTypes::Powerup_Terran_Gas_Tank_Type_2;
+      Assert_enum(Powerup_Terran_Gas_Tank_Type_2);
 
+      Assert_getName(Powerup_Terran_Gas_Tank_Type_2);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
@@ -15756,12 +18608,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(16);
       Assert_dimensionUp(16);
       Assert_dimensionRight(15);
       Assert_dimensionDown(15);
       Assert_width(32);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(32);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(160);
       Assert_groundWeapon(None);
@@ -15803,18 +18658,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestNone)
+    TEST_METHOD(UnitTypeNone)
     {
       auto t = BWAPI::UnitTypes::None;
+      Assert_enum(None);
 
+      Assert_getName(None);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
+      Assert_whatBuilds(None, 0);
+      AssertSetEquals({}, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(None);
       Assert_maxHitPoints(0);
       Assert_maxShields(0);
@@ -15833,12 +18699,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(0);
       Assert_tileHeight(0);
       Assert_tileSize(BWAPI::TilePosition(0, 0));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(0);
       Assert_dimensionUp(0);
       Assert_dimensionRight(0);
       Assert_dimensionDown(0);
       Assert_width(1);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(1);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(0);
       Assert_groundWeapon(None);
@@ -15880,18 +18749,29 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
-    TEST_METHOD(TestUnknown)
+    TEST_METHOD(UnitTypeUnknown)
     {
       auto t = BWAPI::UnitTypes::Unknown;
+      Assert_enum(Unknown);
 
+      Assert_getName(Unknown);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Unknown);
+      Assert_whatBuilds(Unknown, 1);
+      AssertSetEquals({ { BWAPI::UnitTypes::Unknown, 1 } }, t.requiredUnits());
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
+      AssertSetEquals({}, t.abilities());
+      AssertSetEquals({}, t.upgrades());
       Assert_armorUpgrade(Unknown);
       Assert_maxHitPoints(0);
       Assert_maxShields(0);
@@ -15910,12 +18790,15 @@ namespace BWAPILIBTest
       Assert_tileWidth(0);
       Assert_tileHeight(0);
       Assert_tileSize(BWAPI::TilePosition(0, 0));
+      Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());
       Assert_dimensionLeft(0);
       Assert_dimensionUp(0);
       Assert_dimensionRight(0);
       Assert_dimensionDown(0);
       Assert_width(1);
+      Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());
       Assert_height(1);
+      Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());
       Assert_seekRange(0);
       Assert_sightRange(0);
       Assert_groundWeapon(Unknown);
@@ -15957,10 +18840,14 @@ namespace BWAPILIBTest
       Assert_isFlagBeacon(false);
       Assert_isSpecialBuilding(false);
       Assert_isSpell(false);
+      Assert_producesCreep(false);
       Assert_producesLarva(false);
       Assert_isMineralField(false);
       Assert_isCritter(false);
       Assert_canBuildAddon(false);
+      AssertSetEquals({}, t.buildsWhat());
+      AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
 
   };
